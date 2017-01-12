@@ -235,14 +235,14 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 *     An object that contains theme data returned by the WordPress.org API.
 	 *
 	 *     @type string $name           Theme name, e.g. 'Twenty Seventeen'.
-	 *     @type string $slug           Theme slug, e.g. 'twentyseventeen'.
+	 *     @type string $slug           Theme slug, e.g. 'sprout'.
 	 *     @type string $version        Theme version, e.g. '1.1'.
 	 *     @type string $author         Theme author username, e.g. 'melchoyce'.
 	 *     @type string $preview_url    Preview URL, e.g. 'http://2017.wordpress.net/'.
-	 *     @type string $screenshot_url Screenshot URL, e.g. 'https://wordpress.org/themes/twentyseventeen/'.
+	 *     @type string $screenshot_url Screenshot URL, e.g. 'https://wordpress.org/themes/sprout/'.
 	 *     @type float  $rating         Rating score.
 	 *     @type int    $num_ratings    The number of ratings.
-	 *     @type string $homepage       Theme homepage, e.g. 'https://wordpress.org/themes/twentyseventeen/'.
+	 *     @type string $homepage       Theme homepage, e.g. 'https://wordpress.org/themes/sprout/'.
 	 *     @type string $description    Theme description.
 	 *     @type string $download_link  Theme ZIP download URL.
 	 * }
