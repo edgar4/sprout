@@ -277,7 +277,8 @@ function ajax_get_students()
     $table_name = 'students';
 
     $html = '';
-    $results = $wpdb->get_results("SELECT * FROM " . $table_name . " INNER JOIN schools  ON students.school = schools.id ", OBJECT);
+    $results = $wpdb->get_results("SELECT * FROM students.id, students.name, students.class ,schools.name, schools.school_admin schools.id AS school_id
+" . $table_name . " INNER JOIN schools  ON students.school = schools.id ", OBJECT);
 
     echo json_encode(array('students' => $results));
 
