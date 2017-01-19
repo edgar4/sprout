@@ -23,30 +23,46 @@ add_action('wp_ajax_post_love_add_love', 'ajax_login');
 
 function ajax_login()
 { //get the POST data and sign user on
-    $data = (object )$_REQUEST;
 
-    $info = array();
-    $info['user_login'] = $data->username;
-    $info['user_password'] = $data->password;
-    $info['remember'] = true;
-    $user_signon = wp_signon($info, false);
-    if (is_wp_error($user_signon)) {
-        echo json_encode(array('loggedin' => false, 'message' => strip_tags($user_signon->get_error_message(), '<strong>')));
-    } else {
-        wp_set_current_user($user_signon->ID);
+    if ( is_user_logged_in() ):
         $user = get_userdata(get_current_user_id());
         echo json_encode(array('loggedin' => true,
             'message' => __('Login successful, redirecting...'),
             'userdata' => array(
                 'name ' => $user->display_name,
                 'id' => get_current_user_id(),
-                'role' => implode(', ', $user->roles)
-
-
+                'role' => implode(', ', $user->roles),
+                'avatar' => get_avatar_url( get_current_user_id(), 64 )
             )));
-    }
 
-    exit();
+    exit;
+     else:
+         $data = (object )$_REQUEST;
+         $info = array();
+         $info['user_login'] = $data->username;
+         $info['user_password'] = $data->password;
+         $info['remember'] = true;
+         $user_signon = wp_signon($info, false);
+         if (is_wp_error($user_signon)) {
+             echo json_encode(array('loggedin' => false, 'message' => strip_tags($user_signon->get_error_message(), '<strong>')));
+         } else {
+             wp_set_current_user($user_signon->ID);
+             $user = get_userdata(get_current_user_id());
+             echo json_encode(array('loggedin' => true,
+                 'message' => __('Login successful, redirecting...'),
+                 'userdata' => array(
+                     'name' => $user->display_name,
+                     'id' => get_current_user_id(),
+                     'role' => implode(', ', $user->roles),
+                     'avatar' => get_avatar_url( get_current_user_id(), 64 )
+                 )));
+         }
+         exit();
+    endif;
+    
+
+
+
 }
 
 function ga_reports_enqueue()
@@ -294,6 +310,19 @@ function ajax_get_student_activity()
     global $wpdb;
     $table_name = 'student_activities';
     $request = (object)$_REQUEST;
+    if (isset($request->activityId) && !empty($request->activityId)) {
+        $results = $wpdb->get_results("SELECT students.name ,students.class ,activities.activity_icon,schools.school_name,
+                                     student_activities.activity_time, student_activities.activity_title,student_activities.activity_note,wp_users.display_name
+FROM " . $table_name
+            . " INNER JOIN students  ON student_activities.student_id = students.id "
+            . "  INNER JOIN activities  ON student_activities.activity_id = activities.id "
+            . "  INNER JOIN schools  ON students.school = schools.id "
+            . "  INNER JOIN wp_users  ON student_activities.teacher_d=  wp_users.ID "
+            . "WHERE students.id = " . $request->student_id .' AND activities.id = '. $request->activityId
+            , OBJECT);
+        echo json_encode(array('student_activity' => $results));
+        exit;
+    }
     $results = $wpdb->get_results("SELECT * FROM " . $table_name
         . " INNER JOIN students  ON student_activities.student_id = students.id "
         . "  INNER JOIN activities  ON student_activities.activity_id = activities.id "
