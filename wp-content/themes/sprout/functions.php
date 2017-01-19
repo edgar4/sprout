@@ -53,24 +53,27 @@ function ajax_login()
                  'userdata' => array(
                      'name' => $user->display_name,
                      'id' => get_current_user_id(),
-                     'role' => implode(', ', $user->roles),
+                     'role' => implode(',', $user->roles),
                      'avatar' => get_avatar_url( get_current_user_id(), 64 )
                  )));
          }
          exit();
     endif;
-    
+
 
 
 
 }
 
-function ga_reports_enqueue()
+function ga_reports_enqueue($hook)
 {
-    wp_enqueue_style('datatable-css', '//cdn.datatables.net/1.10.3/css/jquery.dataTables.css');
-    wp_enqueue_script('datatable-jquery', '//code.jquery.com/jquery-1.11.1.min.js');
-    wp_enqueue_script('datatable-js', '//cdn.datatables.net/1.10.3/js/jquery.dataTables.min.js');
-    wp_enqueue_script('student-js', get_template_directory_uri() . '/js/student.js', false, '1.0.1');
+ if('toplevel_page_sproute-students' === $hook){
+     wp_enqueue_style('datatable-css', '//cdn.datatables.net/1.10.3/css/jquery.dataTables.css');
+     wp_enqueue_script('datatable-jquery', '//code.jquery.com/jquery-1.11.1.min.js');
+     wp_enqueue_script('datatable-js', '//cdn.datatables.net/1.10.3/js/jquery.dataTables.min.js');
+     wp_enqueue_script('student-js', get_template_directory_uri() . '/js/student.js', false, '1.0.1');
+ }
+
 
 }
 
@@ -352,3 +355,37 @@ function ajax_get_student_profile()
 
 
 }
+
+add_action('wp_ajax_nopriv_ajax_add_activity', 'ajax_add_activity');
+add_action('wp_ajax_add_activity', 'ajax_add_activity');
+function ajax_add_activity()
+{
+    global $wpdb;
+
+    $request = (object)$_REQUEST;
+    $insert = $wpdb->insert('student_activities', array(
+        'student_id' => $request->student_id,
+        'activity_id' => $request->activity_id,
+        'activity_title' => $request->activity_title,
+        'activity_note' => $request->activity_note,
+        'teacher_d' => $request->teacher_id,
+        'activity_time' => date('Y-m-d h:i:s a'),
+
+    ));
+
+    if($insert){
+        echo json_encode(array(
+            'message' => 'success',
+            'student_id' => $request->student_id,
+            ));
+        
+        exit;
+    }
+
+
+    echo json_encode(array('message' => 'failed'));
+    exit;
+
+
+}
+
