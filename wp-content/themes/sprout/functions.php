@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 
 add_action('wp_ajax_nopriv_ajax_login', 'ajax_login');
-add_action('wp_ajax_post_love_add_love', 'ajax_login');
+add_action('wp_ajax_ajax_login', 'ajax_login');
 
 function ajax_login()
 { //get the POST data and sign user on
@@ -289,7 +289,7 @@ function save_upload_details($file, $request)
 }
 
 add_action('wp_ajax_nopriv_ajax_get_students', 'ajax_get_students');
-add_action('wp_ajax_get_students', 'ajax_get_students');
+add_action('wp_ajax_ajax_get_students', 'ajax_get_students');
 function ajax_get_students()
 {
     global $wpdb;
@@ -307,7 +307,7 @@ function ajax_get_students()
 }
 
 add_action('wp_ajax_nopriv_ajax_get_student_activity', 'ajax_get_student_activity');
-add_action('wp_ajax_get_student_activity', 'ajax_get_student_activity');
+add_action('wp_ajax_ajax_get_student_activity', 'ajax_get_student_activity');
 function ajax_get_student_activity()
 {
     global $wpdb;
@@ -340,7 +340,7 @@ FROM " . $table_name
 }
 
 add_action('wp_ajax_nopriv_ajax_get_student_profile', 'ajax_get_student_profile');
-add_action('wp_ajax_get_student_profile', 'ajax_get_student_profile');
+add_action('wp_ajax_ajax_get_student_profile', 'ajax_get_student_profile');
 function ajax_get_student_profile()
 {
     global $wpdb;
@@ -357,7 +357,7 @@ function ajax_get_student_profile()
 }
 
 add_action('wp_ajax_nopriv_ajax_add_activity', 'ajax_add_activity');
-add_action('wp_ajax_add_activity', 'ajax_add_activity');
+add_action('wp_ajax_ajax_add_activity', 'ajax_add_activity');
 function ajax_add_activity()
 {
     global $wpdb;
