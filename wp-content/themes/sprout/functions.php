@@ -429,12 +429,26 @@ function ajax_get_comment(){
     global $wpdb;
     $table_name = 'comments';
     $request = (object)$_REQUEST;
-        $results = $wpdb->get_results("SELECT wp_users.display_name, comments.*
+        $results = $wpdb->get_results("SELECT wp_users.display_name, wp_users.ID, comments.*
               FROM " . $table_name
             . "  INNER JOIN wp_users  ON comments.commenter_id =  wp_users.ID "
             . "WHERE comments.student_id = " . $request->student_id .' AND comments.activity_id = '. $request->activity_id
             , OBJECT);
-        echo json_encode(array('comments' => $results));
+    $data= array();
+    foreach($results as $result){
+       $data[]= array('display_name' =>$result->display_name,
+           'activity_id'=> $result->activity_id,
+           'student_id'=> $result->student_id,
+           'avatar' => get_avatar_url($result->ID,64),
+           'comment' => $result->comment,
+           'activity_time' => $result->activity_time,
+           'commenter_id' =>$result->commenter_id
+           );
+
+
+
+    }
+        echo json_encode(array('comments' => $data));
         exit;
 }
 
