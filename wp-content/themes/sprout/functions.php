@@ -330,7 +330,7 @@ FROM " . $table_name
         . " INNER JOIN students  ON student_activities.student_id = students.id "
         . "  INNER JOIN activities  ON student_activities.activity_id = activities.id "
         . "WHERE students.id = " . $request->student_id
-        , OBJECT);
+        ."ORDER BY student_activities.activity_time DESC", OBJECT);
 
     echo json_encode(array('student_activity' => $results));
 
