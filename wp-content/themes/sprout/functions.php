@@ -322,7 +322,7 @@ FROM " . $table_name
             . "  INNER JOIN schools  ON students.school = schools.id "
             . "  INNER JOIN wp_users  ON student_activities.teacher_d=  wp_users.ID "
             . "WHERE students.id = " . $request->student_id .' AND activities.id = '. $request->activityId
-            , OBJECT);
+            ."ORDER BY student_activities.activity_time DESC", OBJECT);
         echo json_encode(array('student_activity' => $results));
         exit;
     }
