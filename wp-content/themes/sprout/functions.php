@@ -389,3 +389,36 @@ function ajax_add_activity()
 
 }
 
+add_action('wp_ajax_nopriv_ajax_add_comment', 'ajax_add_comment');
+add_action('wp_ajax_ajax_add_comment', 'ajax_add_comment');
+function ajax_add_comment()
+{
+    global $wpdb;
+
+    $request = (object)$_REQUEST;
+    $insert = $wpdb->insert('comments', array(
+        'student_id' => $request->student_id,
+        'activity_id' => $request->activity_id,
+        'comment' => $request->comment,
+        'commenter_id' => $request->commenter_id,
+        'activity_time' => date('Y-m-d h:i:s a'),
+
+    ));
+
+    if($insert){
+        echo json_encode(array(
+            'message' => 'success',
+            'student_id' => $request->student_id,
+            'activity_id' => $request->activity_id,
+        ));
+
+        exit;
+    }
+
+
+    echo json_encode(array('message' => 'failed'));
+    exit;
+
+
+}
+
