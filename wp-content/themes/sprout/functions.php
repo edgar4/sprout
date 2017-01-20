@@ -431,7 +431,7 @@ function ajax_get_comment(){
     $request = (object)$_REQUEST;
         $results = $wpdb->get_results("SELECT wp_users.display_name
               FROM " . $table_name
-            . "  INNER JOIN wp_users  ON comments.commenter_id=  wp_users.ID "
+            . "  INNER JOIN wp_users  ON comments.commenter_id =  wp_users.ID "
             . "WHERE comments.student_id = " . $request->student_id .' AND comments.activity_id = '. $request->activityId
             , OBJECT);
         echo json_encode(array('comments' => $results));
