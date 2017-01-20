@@ -422,3 +422,19 @@ function ajax_add_comment()
 
 }
 
+add_action('wp_ajax_nopriv_ajax_get_comment', 'ajax_get_comment');
+add_action('wp_ajax_ajax_get_comment', 'ajax_get_comment');
+
+function ajax_get_comment(){
+    global $wpdb;
+    $table_name = 'comments';
+    $request = (object)$_REQUEST;
+        $results = $wpdb->get_results("SELECT wp_users.display_name
+              FROM " . $table_name
+            . "  INNER JOIN wp_users  ON comments.commenter_id=  wp_users.ID "
+            . "WHERE comments.student_id = " . $request->student_id .' AND comments.activity_id = '. $request->activityId
+            , OBJECT);
+        echo json_encode(array('comments' => $results));
+        exit;
+}
+
