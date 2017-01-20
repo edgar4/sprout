@@ -433,7 +433,7 @@ function ajax_get_comment(){
               FROM " . $table_name
             . "  INNER JOIN wp_users  ON comments.commenter_id =  wp_users.ID "
             . "WHERE comments.student_id = " . $request->student_id .' AND comments.activity_id = '. $request->activity_id
-            , OBJECT);
+            ."   ORDER BY comments.activity_time DESC", OBJECT);
     $data= array();
     foreach($results as $result){
        $data[]= array('display_name' =>$result->display_name,
