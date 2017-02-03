@@ -452,3 +452,54 @@ function ajax_get_comment(){
         exit;
 }
 
+
+add_action('wp_ajax_nopriv_ajax_add_event', 'ajax_add_event');
+add_action('wp_ajax_ajax_add_event', 'ajax_add_event');
+function ajax_add_event()
+{
+    global $wpdb;
+
+    $request = (object)$_REQUEST;
+    $insert = $wpdb->insert('events', array(
+        'title' => $request->title,
+        'description' => $request->description,
+        'date' => $request->startdate,
+        'enddate' => $request->enddate,
+        'school_id' => $request->school_id,
+        'teacher_id' => $request->teacher_id,
+
+    ));
+
+    if($insert){
+        echo json_encode(array(
+            'message' => 'success',
+        ));
+
+        exit;
+    }
+
+
+    echo json_encode(array('message' => 'failed'));
+    exit;
+
+
+}
+add_action('wp_ajax_nopriv_ajax_get_school_event', 'ajax_get_school_event');
+add_action('wp_ajax_ajax_get_school_event', 'ajax_get_school_event');
+function ajax_get_school_event()
+{
+    global $wpdb;
+    $table_name = 'events';
+    $request = (object)$_REQUEST;
+    $results = $wpdb->get_results("SELECT * FROM " . $table_name . " WHERE school_id = " . $request->school_id
+        ."   ORDER BY id  DESC", OBJECT);
+
+    echo json_encode(array('event' => $results));
+
+    exit;
+
+
+}
+
+
+
