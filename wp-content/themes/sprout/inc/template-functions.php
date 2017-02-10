@@ -71,3 +71,25 @@ function redirect_users_by_role() {
 
 }
 add_action( 'admin_init', 'redirect_users_by_role' );
+
+function hide_admin_bar_from_front_end(){
+    if (is_blog_admin()) {
+        return true;
+    }
+    return false;
+}
+add_filter( 'show_admin_bar', 'hide_admin_bar_from_front_end' );
+
+function B_get_students()
+{
+    global $wpdb;
+    $table_name = 'students';
+    $results = $wpdb->get_results("SELECT students.id, students.name, students.class,students.image,schools.id AS school_id, schools.school_name , schools.school_admin  FROM 
+" . $table_name . " INNER JOIN schools  ON students.school = schools.id ", OBJECT);
+
+    return $results;
+}
+
+function request_object(){
+    return (object) $_REQUEST;
+}
