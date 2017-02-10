@@ -60,17 +60,17 @@ function scripts(){
 //add_action('wp_footer', 'scripts');
 
 
-function redirect_users_by_role() {
-
-    $current_user   = wp_get_current_user();
-    $role_name      = $current_user->roles[0];
-
-    if ( 'administrator' !== $role_name ) {
-        wp_redirect( site_url().'/dashboard' );
-    }
-
-}
-add_action( 'admin_init', 'redirect_users_by_role' );
+//function redirect_users_by_role() {
+//
+//    $current_user   = wp_get_current_user();
+//    $role_name      = $current_user->roles[0];
+//
+//    if ( 'administrator' !== $role_name ) {
+//        wp_redirect( site_url().'/dashboard' );
+//    }
+//
+//}
+//add_action( 'admin_init', 'redirect_users_by_role' );
 
 function hide_admin_bar_from_front_end(){
     if (is_blog_admin()) {
@@ -92,4 +92,41 @@ function B_get_students()
 
 function request_object(){
     return (object) $_REQUEST;
+}
+add_action( 'admin_post_save_activity', 'prefix_admin_save_activity' );
+function prefix_admin_save_activity($checking = false)
+{
+    global $wpdb;
+
+    $request = (object)$_REQUEST;
+    if ($checking) {
+        $insert = $wpdb->insert('student_activities', array(
+            'student_id' => $request->st,
+            'activity_id' => 1,
+            'activity_title' => 'Check In',
+            'activity_note' => 'Student checked in',
+            'teacher_d' => get_current_user_id(),
+            'activity_time' => date('Y-m-d h:i:s a'),
+
+        ));
+
+    } else {
+        $insert = $wpdb->insert('student_activities', array(
+            'student_id' => $request->student_id,
+            'activity_id' => $request->activity_id,
+            'activity_title' => $request->activity_title,
+            'activity_note' => $request->activity_note,
+            'teacher_d' => get_current_user_id(),
+            'activity_time' => date('Y-m-d h:i:s a'),
+
+        ));
+    }
+
+
+    if ($insert) {
+         wp_redirect(site_url().'/dashboard/student-activity/?activity='.$request->activity_id);
+
+    }
+
+
 }

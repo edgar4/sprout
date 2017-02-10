@@ -37,7 +37,7 @@ get_header(); ?>
                                 <p><a href="#"> Class <?php echo $student->class ?>.</a></p>
                                 <div class="action pull-right">
                                     <a style="font-size: 3em;"
-                                       href="<?php echo site_url() . '/dashboard/add_activity/?activity=' . $request->activity . '&student=' . $student->id ?>">
+                                       href="<?php echo site_url() . '/dashboard/add/?activity=' . $request->activity . '&st=' . $student->id ?>">
 
                                         <?php if ($request->activity == 1):
                                             echo '<i class="icon-arrow-right"></i> </a>';
