@@ -23,6 +23,11 @@ function assets()
     wp_enqueue_style('s7', get_stylesheet_directory_uri() . '/assets/css/matrix-media.css');
     wp_enqueue_style('s8', get_stylesheet_directory_uri() . '/assets/css/jquery.gritter.css');
 
+    wp_localize_script('sprout_ajax', 'sprout_ajax', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+        )
+    );
+
     
     
 
@@ -127,6 +132,20 @@ function prefix_admin_save_activity($checking = false)
          wp_redirect(site_url().'/dashboard/student-activity/?activity='.$request->activity_id);
 
     }
+
+
+}
+
+function get_school_calendar()
+{
+    global $wpdb;
+    $table_name = 'events';
+    $request = (object)$_REQUEST;
+    $results = $wpdb->get_results("SELECT * FROM " . $table_name . " WHERE school_id = " . 1
+        ."   ORDER BY id  DESC LIMIT 10", OBJECT);
+
+    return  $results;
+
 
 
 }

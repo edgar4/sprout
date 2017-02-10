@@ -25,6 +25,9 @@
 
 <!--end-Footer-part-->
 <?php wp_footer(); ?>
+<script>
+	var ajax_url = '<?php echo admin_url('admin-ajax.php')?>';
+</script>
 <script src="<?php echo get_stylesheet_directory_uri() .'/assets/';?>js/excanvas.min.js"></script>
 <script src="<?php echo get_stylesheet_directory_uri() .'/assets/';?>js/jquery.min.js"></script>
 <script src="<?php echo get_stylesheet_directory_uri() .'/assets/';?>js/jquery.ui.custom.js"></script>
@@ -46,6 +49,8 @@
 <script src="<?php echo get_stylesheet_directory_uri() .'/assets/';?>js/matrix.popover.js"></script>
 <script src="<?php echo get_stylesheet_directory_uri() .'/assets/';?>js/jquery.dataTables.min.js"></script>
 <script src="<?php echo get_stylesheet_directory_uri() .'/assets/';?>js/matrix.tables.js"></script>
+
+<script src="<?php echo get_stylesheet_directory_uri() .'/assets/';?>js/sprout.js"></script>
 
 <script type="text/javascript">
 	// This function is called from the pop-up menus to transfer to
