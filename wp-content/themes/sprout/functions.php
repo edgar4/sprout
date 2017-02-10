@@ -1,5 +1,8 @@
 <?php
 
+ require_once 'inc/template-functions.php';
+
+
 // Allow from any origin
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
@@ -333,6 +336,24 @@ FROM " . $table_name
         ."   ORDER BY student_activities.activity_time DESC", OBJECT);
 
     echo json_encode(array('student_activity' => $results));
+
+    exit;
+
+
+}
+
+
+add_action('wp_ajax_nopriv_ajax_get_parent_child', 'ajax_get_parent_child');
+add_action('wp_ajax_ajax_get_parent_child', 'ajax_get_parent_child');
+function ajax_get_parent_child()
+{
+    global $wpdb;
+    $table_name = 'students';
+    $request = (object)$_REQUEST;
+
+    $results = $wpdb->get_results("SELECT students.id FROM " . $table_name . "  WHERE students.parent = " . $request->parent_id, OBJECT);
+
+    echo json_encode(array('student' => $results));
 
     exit;
 
