@@ -1,6 +1,6 @@
 <?php
 
- require_once 'inc/template-functions.php';
+require_once 'inc/template-functions.php';
 
 
 // Allow from any origin
@@ -27,7 +27,7 @@ add_action('wp_ajax_ajax_login', 'ajax_login');
 function ajax_login()
 { //get the POST data and sign user on
 
-    if ( is_user_logged_in() ):
+    if (is_user_logged_in()):
         $user = get_userdata(get_current_user_id());
         echo json_encode(array('loggedin' => true,
             'message' => __('Login successful, redirecting...'),
@@ -35,47 +35,45 @@ function ajax_login()
                 'name ' => $user->display_name,
                 'id' => get_current_user_id(),
                 'role' => implode(', ', $user->roles),
-                'avatar' => get_avatar_url( get_current_user_id(), 64 )
+                'avatar' => get_avatar_url(get_current_user_id(), 64)
             )));
 
-    exit;
-     else:
-         $data = (object )$_REQUEST;
-         $info = array();
-         $info['user_login'] = $data->username;
-         $info['user_password'] = $data->password;
-         $info['remember'] = true;
-         $user_signon = wp_signon($info, false);
-         if (is_wp_error($user_signon)) {
-             echo json_encode(array('loggedin' => false, 'message' => strip_tags($user_signon->get_error_message(), '<strong>')));
-         } else {
-             wp_set_current_user($user_signon->ID);
-             $user = get_userdata(get_current_user_id());
-             echo json_encode(array('loggedin' => true,
-                 'message' => __('Login successful, redirecting...'),
-                 'userdata' => array(
-                     'name' => $user->display_name,
-                     'id' => get_current_user_id(),
-                     'role' => implode(',', $user->roles),
-                     'avatar' => get_avatar_url( get_current_user_id(), 64 )
-                 )));
-         }
-         exit();
+        exit;
+    else:
+        $data = (object )$_REQUEST;
+        $info = array();
+        $info['user_login'] = $data->username;
+        $info['user_password'] = $data->password;
+        $info['remember'] = true;
+        $user_signon = wp_signon($info, false);
+        if (is_wp_error($user_signon)) {
+            echo json_encode(array('loggedin' => false, 'message' => strip_tags($user_signon->get_error_message(), '<strong>')));
+        } else {
+            wp_set_current_user($user_signon->ID);
+            $user = get_userdata(get_current_user_id());
+            echo json_encode(array('loggedin' => true,
+                'message' => __('Login successful, redirecting...'),
+                'userdata' => array(
+                    'name' => $user->display_name,
+                    'id' => get_current_user_id(),
+                    'role' => implode(',', $user->roles),
+                    'avatar' => get_avatar_url(get_current_user_id(), 64)
+                )));
+        }
+        exit();
     endif;
-
-
 
 
 }
 
 function ga_reports_enqueue($hook)
 {
- if('toplevel_page_sproute-students' === $hook){
-     wp_enqueue_style('datatable-css', '//cdn.datatables.net/1.10.3/css/jquery.dataTables.css');
-     wp_enqueue_script('datatable-jquery', '//code.jquery.com/jquery-1.11.1.min.js');
-     wp_enqueue_script('datatable-js', '//cdn.datatables.net/1.10.3/js/jquery.dataTables.min.js');
-     wp_enqueue_script('student-js', get_template_directory_uri() . '/js/student.js', false, '1.0.1');
- }
+    if ('toplevel_page_sproute-students' === $hook) {
+        wp_enqueue_style('datatable-css', '//cdn.datatables.net/1.10.3/css/jquery.dataTables.css');
+        wp_enqueue_script('datatable-jquery', '//code.jquery.com/jquery-1.11.1.min.js');
+        wp_enqueue_script('datatable-js', '//cdn.datatables.net/1.10.3/js/jquery.dataTables.min.js');
+        wp_enqueue_script('student-js', get_template_directory_uri() . '/js/student.js', false, '1.0.1');
+    }
 
 
 }
@@ -311,7 +309,7 @@ function ajax_get_students()
 
 add_action('wp_ajax_nopriv_ajax_get_student_activity', 'ajax_get_student_activity');
 add_action('wp_ajax_ajax_get_student_activity', 'ajax_get_student_activity');
-function ajax_get_student_activity()
+function ajax_get_student_activity($isAjax = true)
 {
     global $wpdb;
     $table_name = 'student_activities';
@@ -324,20 +322,30 @@ FROM " . $table_name
             . "  INNER JOIN activities  ON student_activities.activity_id = activities.id "
             . "  INNER JOIN schools  ON students.school = schools.id "
             . "  INNER JOIN wp_users  ON student_activities.teacher_d=  wp_users.ID "
-            . "WHERE students.id = " . $request->student_id .' AND activities.id = '. $request->activityId
+            . "WHERE students.id = " . $request->student_id . ' AND activities.id = ' . $request->activityId
             , OBJECT);
-        echo json_encode(array('student_activity' => $results));
-        exit;
+
+        if ($isAjax) {
+            echo json_encode(array('student_activity' => $results));
+            exit;
+        }
+
+        return $results;
+
     }
     $results = $wpdb->get_results("SELECT * FROM " . $table_name
         . "  INNER JOIN students  ON student_activities.student_id = students.id "
         . "  INNER JOIN activities  ON student_activities.activity_id = activities.id "
         . "  WHERE students.id = " . $request->student_id
-        ."   ORDER BY student_activities.activity_time DESC", OBJECT);
+        . "   ORDER BY student_activities.activity_time DESC", OBJECT);
 
-    echo json_encode(array('student_activity' => $results));
 
-    exit;
+    if ($isAjax) {
+        echo json_encode(array('student_activity' => $results));
+        exit;
+    }
+
+    return $results;
 
 
 }
@@ -362,7 +370,7 @@ function ajax_get_parent_child()
 
 add_action('wp_ajax_nopriv_ajax_get_student_profile', 'ajax_get_student_profile');
 add_action('wp_ajax_ajax_get_student_profile', 'ajax_get_student_profile');
-function ajax_get_student_profile()
+function ajax_get_student_profile($isJax = true)
 {
     global $wpdb;
     $table_name = 'students';
@@ -370,9 +378,13 @@ function ajax_get_student_profile()
     $results = $wpdb->get_results("SELECT * FROM " . $table_name . " WHERE id = " . $request->student_id
         , OBJECT);
 
-    echo json_encode(array('student_profile' => $results));
+    if ($isJax) {
+        echo json_encode(array('student_profile' => $results));
 
-    exit;
+        exit;
+    }
+
+    return $results;
 
 
 }
@@ -394,12 +406,12 @@ function ajax_add_activity()
 
     ));
 
-    if($insert){
+    if ($insert) {
         echo json_encode(array(
             'message' => 'success',
             'student_id' => $request->student_id,
-            ));
-        
+        ));
+
         exit;
     }
 
@@ -426,7 +438,7 @@ function ajax_add_comment()
 
     ));
 
-    if($insert){
+    if ($insert) {
         echo json_encode(array(
             'message' => 'success',
             'student_id' => $request->student_id,
@@ -446,31 +458,31 @@ function ajax_add_comment()
 add_action('wp_ajax_nopriv_ajax_get_comment', 'ajax_get_comment');
 add_action('wp_ajax_ajax_get_comment', 'ajax_get_comment');
 
-function ajax_get_comment(){
+function ajax_get_comment()
+{
     global $wpdb;
     $table_name = 'comments';
     $request = (object)$_REQUEST;
-        $results = $wpdb->get_results("SELECT wp_users.display_name, wp_users.ID, comments.*
+    $results = $wpdb->get_results("SELECT wp_users.display_name, wp_users.ID, comments.*
               FROM " . $table_name
-            . "  INNER JOIN wp_users  ON comments.commenter_id =  wp_users.ID "
-            . "WHERE comments.student_id = " . $request->student_id .' AND comments.activity_id = '. $request->activity_id
-            ."   ORDER BY comments.activity_time DESC", OBJECT);
-    $data= array();
-    foreach($results as $result){
-       $data[]= array('display_name' =>$result->display_name,
-           'activity_id'=> $result->activity_id,
-           'student_id'=> $result->student_id,
-           'avatar' => get_avatar_url($result->ID,64),
-           'comment' => $result->comment,
-           'activity_time' => $result->activity_time,
-           'commenter_id' =>$result->commenter_id
-           );
-
+        . "  INNER JOIN wp_users  ON comments.commenter_id =  wp_users.ID "
+        . "WHERE comments.student_id = " . $request->student_id . ' AND comments.activity_id = ' . $request->activity_id
+        . "   ORDER BY comments.activity_time DESC", OBJECT);
+    $data = array();
+    foreach ($results as $result) {
+        $data[] = array('display_name' => $result->display_name,
+            'activity_id' => $result->activity_id,
+            'student_id' => $result->student_id,
+            'avatar' => get_avatar_url($result->ID, 64),
+            'comment' => $result->comment,
+            'activity_time' => $result->activity_time,
+            'commenter_id' => $result->commenter_id
+        );
 
 
     }
-        echo json_encode(array('comments' => $data));
-        exit;
+    echo json_encode(array('comments' => $data));
+    exit;
 }
 
 
@@ -491,7 +503,7 @@ function ajax_add_event()
 
     ));
 
-    if($insert){
+    if ($insert) {
         echo json_encode(array(
             'message' => 'success',
         ));
@@ -505,6 +517,7 @@ function ajax_add_event()
 
 
 }
+
 add_action('wp_ajax_nopriv_ajax_get_school_event', 'ajax_get_school_event');
 add_action('wp_ajax_ajax_get_school_event', 'ajax_get_school_event');
 function ajax_get_school_event()
@@ -513,7 +526,7 @@ function ajax_get_school_event()
     $table_name = 'events';
     $request = (object)$_REQUEST;
     $results = $wpdb->get_results("SELECT * FROM " . $table_name . " WHERE school_id = " . $request->school_id
-        ."   ORDER BY id  DESC", OBJECT);
+        . "   ORDER BY id  DESC", OBJECT);
 
     echo json_encode(array('event' => $results));
 
