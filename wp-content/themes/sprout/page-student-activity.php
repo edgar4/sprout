@@ -30,14 +30,14 @@ get_header(); ?>
                     $students = B_get_students();
                     foreach ($students as $student): ?>
                         <li>
-                            <div class="user-thumb"><img width="40" height="40" alt="User"
+                            <a href="<?php echo site_url() . '/dashboard/profile/?st=' . $student->id?>"><div class="user-thumb"><img width="40" height="40" alt="User"
                                                          src="<?php echo $student->image ?>"></div>
                             <div class="article-post"><strong><span
                                         class="user-info"> <?php echo $student->name ?> </span></strong>
-                                <p><a href="#"> Class <?php echo $student->class ?>.</a></p>
+                                <p> Class <?php echo $student->class ?></p></a>
                                 <div class="action pull-right">
                                     <a style="font-size: 3em;"
-                                       href="<?php echo site_url() . '/dashboard/add/?activity=' . $request->activity . '&st=' . $student->id ?>">
+                                       href="<?php echo site_url() . '/dashboard/add/?activity=' . $request->activity . '&student_id=' . $student->id ?>">
 
                                         <?php if ($request->activity == 1):
                                             echo '<i class="icon-arrow-right"></i> </a>';

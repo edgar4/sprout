@@ -1,14 +1,14 @@
 <?php
 /**
  *
-
-
-
-
-
-
-
-<script src="js/matrix.tables.js"></script>
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * <script src="js/matrix.tables.js"></script>
  */
 function assets()
 {
@@ -22,9 +22,12 @@ function assets()
 
     wp_enqueue_style('s7', get_stylesheet_directory_uri() . '/assets/css/matrix-media.css');
     wp_enqueue_style('s8', get_stylesheet_directory_uri() . '/assets/css/jquery.gritter.css');
+    wp_enqueue_style('s9', get_stylesheet_directory_uri() . '/assets/css/overide.css');
 
-    
-    
+    wp_localize_script('sprout_ajax', 'sprout_ajax', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+        )
+    );
 
 
 }
@@ -32,7 +35,8 @@ function assets()
 add_action('wp_enqueue_scripts', 'assets');
 
 
-function scripts(){
+function scripts()
+{
 
     //    wp_enqueue_script('j1', get_stylesheet_directory_uri() . '/assets/js/excanvas.min.js', array('j1'));
     wp_enqueue_script('j2', get_stylesheet_directory_uri() . '/assets/js/jquery.min.js', array('j2'));
@@ -72,28 +76,44 @@ function scripts(){
 //}
 //add_action( 'admin_init', 'redirect_users_by_role' );
 
-function hide_admin_bar_from_front_end(){
+function hide_admin_bar_from_front_end()
+{
     if (is_blog_admin()) {
         return true;
     }
     return false;
 }
-add_filter( 'show_admin_bar', 'hide_admin_bar_from_front_end' );
 
-function B_get_students()
+add_filter('show_admin_bar', 'hide_admin_bar_from_front_end');
+
+function B_get_students($isStudent)
 {
     global $wpdb;
     $table_name = 'students';
-    $results = $wpdb->get_results("SELECT students.id, students.name, students.class,students.image,schools.id AS school_id, schools.school_name , schools.school_admin  FROM 
+    $request = (object)$_REQUEST;
+
+    if ($isStudent) {
+        $results = $wpdb->get_results("SELECT * FROM  student_activities"
+            . "  INNER JOIN students  ON student_activities.student_id = students.id "
+            . "  INNER JOIN activities  ON student_activities.activity_id = activities.id "
+            . "  WHERE students.id = " . $request->st
+            . "   ORDER BY student_activities.activity_time DESC", OBJECT);
+
+    } else {
+        $results = $wpdb->get_results("SELECT students.id, students.name, students.class,students.image,schools.id AS school_id, schools.school_name , schools.school_admin  FROM 
 " . $table_name . " INNER JOIN schools  ON students.school = schools.id ", OBJECT);
+    }
+
 
     return $results;
 }
 
-function request_object(){
-    return (object) $_REQUEST;
+function request_object()
+{
+    return (object)$_REQUEST;
 }
-add_action( 'admin_post_save_activity', 'prefix_admin_save_activity' );
+
+add_action('admin_post_save_activity', 'prefix_admin_save_activity');
 function prefix_admin_save_activity($checking = false)
 {
     global $wpdb;
@@ -124,9 +144,22 @@ function prefix_admin_save_activity($checking = false)
 
 
     if ($insert) {
-         wp_redirect(site_url().'/dashboard/student-activity/?activity='.$request->activity_id);
+        wp_redirect(site_url() . '/dashboard/student-activity/?activity=' . $request->activity_id);
 
     }
+
+
+}
+
+function get_school_calendar()
+{
+    global $wpdb;
+    $table_name = 'events';
+    $request = (object)$_REQUEST;
+    $results = $wpdb->get_results("SELECT * FROM " . $table_name . " WHERE school_id = " . 1
+        . "   ORDER BY id  DESC LIMIT 10", OBJECT);
+
+    return $results;
 
 
 }
