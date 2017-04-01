@@ -30,7 +30,7 @@ get_header(); ?>
                     $students = B_get_students();
                     foreach ($students as $student): ?>
                         <li>
-                            <a href="<?php echo site_url() . '/dashboard/profile/?st=' . $student->id?>"><div class="user-thumb"><img width="40" height="40" alt="User"
+                            <a href="<?php echo site_url() . '/dashboard/profile/?student_id=' . $student->id?>"><div class="user-thumb"><img width="40" height="40" alt="User"
                                                          src="<?php echo $student->image ?>"></div>
                             <div class="article-post"><strong><span
                                         class="user-info"> <?php echo $student->name ?> </span></strong>

@@ -44,7 +44,7 @@ else:?>
 
                                     <input type="hidden" name="action" value="save_activity">
                                     <input type="hidden" name="activity_id" value="<?php echo request_object()->activity?>" >
-                                    <input type="hidden" name="student_id" value="<?php echo request_object()->st?>">
+                                    <input type="hidden" name="student_id" value="<?php echo request_object()->student_id?>">
                                 </div>
                             </div>
                             <div class="form-actions">
