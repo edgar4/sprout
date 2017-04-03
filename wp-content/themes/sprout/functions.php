@@ -35,7 +35,8 @@ function ajax_login()
                 'name ' => $user->display_name,
                 'id' => get_current_user_id(),
                 'role' => implode(', ', $user->roles),
-                'avatar' => get_avatar_url(get_current_user_id(), 64)
+                'avatar' => get_avatar_url(get_current_user_id(), 64),
+                'email' => $user->user_email,
             )));
 
         exit;
@@ -57,7 +58,8 @@ function ajax_login()
                     'name' => $user->display_name,
                     'id' => get_current_user_id(),
                     'role' => implode(',', $user->roles),
-                    'avatar' => get_avatar_url(get_current_user_id(), 64)
+                    'avatar' => get_avatar_url(get_current_user_id(), 64),
+                    'email' => $user->user_email,
                 )));
         }
         exit();
@@ -360,7 +362,7 @@ function ajax_get_parent_child()
     $table_name = 'students';
     $request = (object)$_REQUEST;
 
-    $results = $wpdb->get_results("SELECT students.id FROM " . $table_name . "  WHERE students.parent = " . $request->parent_id, OBJECT);
+    $results = $wpdb->get_results("SELECT students.* FROM " . $table_name . "  WHERE students.parent = " . $request->parent_id, OBJECT);
 
     echo json_encode(array('student' => $results));
 
