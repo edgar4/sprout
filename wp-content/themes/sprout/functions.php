@@ -370,15 +370,17 @@ function ajax_get_parent_child()
 
 add_action('wp_ajax_nopriv_ajax_get_student_profile', 'ajax_get_student_profile');
 add_action('wp_ajax_ajax_get_student_profile', 'ajax_get_student_profile');
-function ajax_get_student_profile($isJax = true)
+function ajax_get_student_profile($isAjax = true)
 {
+
     global $wpdb;
     $table_name = 'students';
     $request = (object)$_REQUEST;
+    $isAjax = $request->isAjax;
     $results = $wpdb->get_results("SELECT * FROM " . $table_name . " WHERE id = " . $request->student_id
         , OBJECT);
 
-    if ($isJax) {
+    if ($isAjax) {
         echo json_encode(array('student_profile' => $results));
 
         exit;
