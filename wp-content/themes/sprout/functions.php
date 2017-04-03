@@ -314,6 +314,7 @@ function ajax_get_student_activity($isAjax = true)
     global $wpdb;
     $table_name = 'student_activities';
     $request = (object)$_REQUEST;
+    $isAjax = $request->isAjax;
     if (isset($request->activityId) && !empty($request->activityId)) {
         $results = $wpdb->get_results("SELECT students.name ,students.class ,activities.activity_icon,schools.school_name,
                                      student_activities.activity_time, student_activities.activity_title,student_activities.activity_note,wp_users.display_name
