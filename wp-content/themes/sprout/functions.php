@@ -35,7 +35,8 @@ function ajax_login()
                 'name ' => $user->display_name,
                 'id' => get_current_user_id(),
                 'role' => implode(', ', $user->roles),
-                'avatar' => get_avatar_url(get_current_user_id(), 64)
+                'avatar' => get_avatar_url(get_current_user_id(), 64),
+                'email' => $user->user_email,
             )));
 
         exit;
@@ -57,7 +58,8 @@ function ajax_login()
                     'name' => $user->display_name,
                     'id' => get_current_user_id(),
                     'role' => implode(',', $user->roles),
-                    'avatar' => get_avatar_url(get_current_user_id(), 64)
+                    'avatar' => get_avatar_url(get_current_user_id(), 64),
+                    'email' => $user->user_email,
                 )));
         }
         exit();
@@ -314,6 +316,7 @@ function ajax_get_student_activity($isAjax = true)
     global $wpdb;
     $table_name = 'student_activities';
     $request = (object)$_REQUEST;
+    $isAjax = $request->isAjax;
     if (isset($request->activityId) && !empty($request->activityId)) {
         $results = $wpdb->get_results("SELECT students.name ,students.class ,activities.activity_icon,schools.school_name,
                                      student_activities.activity_time, student_activities.activity_title,student_activities.activity_note,wp_users.display_name
@@ -359,7 +362,7 @@ function ajax_get_parent_child()
     $table_name = 'students';
     $request = (object)$_REQUEST;
 
-    $results = $wpdb->get_results("SELECT students.id FROM " . $table_name . "  WHERE students.parent = " . $request->parent_id, OBJECT);
+    $results = $wpdb->get_results("SELECT students.* FROM " . $table_name . "  WHERE students.parent = " . $request->parent_id, OBJECT);
 
     echo json_encode(array('student' => $results));
 
@@ -370,15 +373,17 @@ function ajax_get_parent_child()
 
 add_action('wp_ajax_nopriv_ajax_get_student_profile', 'ajax_get_student_profile');
 add_action('wp_ajax_ajax_get_student_profile', 'ajax_get_student_profile');
-function ajax_get_student_profile($isJax = true)
+function ajax_get_student_profile($isAjax = true)
 {
+
     global $wpdb;
     $table_name = 'students';
     $request = (object)$_REQUEST;
+    $isAjax = $request->isAjax;
     $results = $wpdb->get_results("SELECT * FROM " . $table_name . " WHERE id = " . $request->student_id
         , OBJECT);
 
-    if ($isJax) {
+    if ($isAjax) {
         echo json_encode(array('student_profile' => $results));
 
         exit;

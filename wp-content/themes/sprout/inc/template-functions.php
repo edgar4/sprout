@@ -86,7 +86,7 @@ function hide_admin_bar_from_front_end()
 
 add_filter('show_admin_bar', 'hide_admin_bar_from_front_end');
 
-function B_get_students($isStudent)
+function B_get_students($isStudent=false)
 {
     global $wpdb;
     $table_name = 'students';
@@ -121,7 +121,7 @@ function prefix_admin_save_activity($checking = false)
     $request = (object)$_REQUEST;
     if ($checking) {
         $insert = $wpdb->insert('student_activities', array(
-            'student_id' => $request->st,
+            'student_id' => $request->student_id,
             'activity_id' => 1,
             'activity_title' => 'Check In',
             'activity_note' => 'Student checked in',
