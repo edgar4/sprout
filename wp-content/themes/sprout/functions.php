@@ -559,9 +559,12 @@ function ajax_set_subscription()
             'quantity' => 1,
 
         ));
+        
+         
 
         if ($insert) {
             echo json_encode(array('message' => 'subscription successfully update you will recieve a confirmation email shortly'));
+            wp_mail();
             exit;
 
         }else{
