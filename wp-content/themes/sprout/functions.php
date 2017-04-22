@@ -540,5 +540,39 @@ function ajax_get_school_event()
 
 }
 
+add_action('wp_ajax_nopriv_ajax_set_subscription', 'ajax_set_subscription');
+add_action('wp_ajax_ajax_set_subscription', 'ajax_set_subscription');
+function ajax_set_subscription()
+{
+
+    global $wpdb;
+    $request = (object)$_REQUEST;
+    $isAjax = $request->isAjax;
+    if ($isAjax) {
+
+        $insert = $wpdb->insert('subscriptions', array(
+            'user_id' => $request->user_id,
+            'amount' => $request->amount,
+            'start_date' => date("Y-m-d H:i:s"),
+            'end_date' => date('Y-m-d', strtotime("+90 days")),
+            'transaction_code' => $request->transactionCode,
+            'quantity' => 1,
+
+        ));
+
+        if ($insert) {
+            echo json_encode(array('message' => 'subscription successfully update you will recieve a confirmation email shortly'));
+            exit;
+
+        }else{
+            echo json_encode(array('message' => 'subscription  not updated'));
+            exit;
+        }
+
+
+    }
+
+}
+
 
 
