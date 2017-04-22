@@ -5,3 +5,14 @@
     padding :8em;
 
 }
+.modal-container{
+    margin: 0 auto;
+    max-width: 600px;
+    background: #F4F4F4;
+    max-height: 600px;
+}
+.modal-container input,textarea{
+
+    width: 100%;
+
+}

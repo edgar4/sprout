@@ -25,7 +25,7 @@ get_header(); ?>
                 <div class="buttons"><a id="add-event" data-toggle="modal" href="#modal-add-event"
                                         class="btn btn-inverse btn-mini"><i class="icon-plus icon-white"></i> Add new
                         event</a>
-                    <div class="modal hide" id="modal-add-event">
+                    <div class="modal modal-container" id="modal-add-event">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">×</button>
                             <h3>Add a new event</h3>
