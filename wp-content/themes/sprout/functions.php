@@ -575,7 +575,16 @@ function ajax_set_subscription()
 
     }
 
+
 }
+
+function prefix_send_email_to_admin() {
+    $request = (object)$_REQUEST;
+    var_dump($request);
+
+}
+add_action( 'admin_post_nopriv_contact_form', 'prefix_send_email_to_admin' );
+add_action( 'admin_post_contact_form', 'prefix_send_email_to_admin' );
 
 
 
