@@ -1,5 +1,5 @@
 <?php
-
+ini_set("date.timezone", "Africa/Nairobi");
 require_once 'inc/template-functions.php';
 
 
@@ -81,8 +81,6 @@ function ga_reports_enqueue($hook)
 }
 
 add_action('admin_enqueue_scripts', 'ga_reports_enqueue');
-
-
 add_action('admin_menu', 'ga_report_menu');
 function ga_report_menu()
 {
