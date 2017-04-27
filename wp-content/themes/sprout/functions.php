@@ -1,5 +1,6 @@
 <?php
 ini_set("date.timezone", "Africa/Nairobi");
+date_default_timezone_set('Africa/Nairobi');
 require_once 'inc/template-functions.php';
 
 
