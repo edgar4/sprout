@@ -1,6 +1,5 @@
 <?php
 ini_set("date.timezone", "Africa/Nairobi");
-date_default_timezone_set('Africa/Nairobi');
 require_once 'inc/template-functions.php';
 
 
@@ -398,7 +397,7 @@ add_action('wp_ajax_ajax_add_activity', 'ajax_add_activity');
 function ajax_add_activity()
 {
     global $wpdb;
-
+    date_default_timezone_set('Africa/Nairobi');
     $request = (object)$_REQUEST;
     $insert = $wpdb->insert('student_activities', array(
         'student_id' => $request->student_id,
@@ -431,7 +430,7 @@ add_action('wp_ajax_ajax_add_comment', 'ajax_add_comment');
 function ajax_add_comment()
 {
     global $wpdb;
-
+    date_default_timezone_set('Africa/Nairobi');
     $request = (object)$_REQUEST;
     $insert = $wpdb->insert('comments', array(
         'student_id' => $request->student_id,
@@ -545,6 +544,7 @@ function ajax_set_subscription()
 {
 
     global $wpdb;
+    date_default_timezone_set('Africa/Nairobi');
     $request = (object)$_REQUEST;
     $isAjax = $request->isAjax;
     if ($isAjax) {
