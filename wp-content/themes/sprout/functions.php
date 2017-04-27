@@ -1,5 +1,5 @@
 <?php
-
+ini_set("date.timezone", "Africa/Nairobi");
 require_once 'inc/template-functions.php';
 
 
@@ -81,8 +81,6 @@ function ga_reports_enqueue($hook)
 }
 
 add_action('admin_enqueue_scripts', 'ga_reports_enqueue');
-
-
 add_action('admin_menu', 'ga_report_menu');
 function ga_report_menu()
 {
@@ -575,7 +573,16 @@ function ajax_set_subscription()
 
     }
 
+
 }
+
+function prefix_send_email_to_admin() {
+    $request = (object)$_REQUEST;
+    var_dump($request);
+
+}
+add_action( 'admin_post_nopriv_contact_form', 'prefix_send_email_to_admin' );
+add_action( 'admin_post_contact_form', 'prefix_send_email_to_admin' );
 
 
 
