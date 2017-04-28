@@ -1,5 +1,4 @@
 <?php
-ini_set("date.timezone", "Africa/Nairobi");
 require_once 'inc/template-functions.php';
 
 
@@ -397,7 +396,10 @@ add_action('wp_ajax_ajax_add_activity', 'ajax_add_activity');
 function ajax_add_activity()
 {
     global $wpdb;
-    date_default_timezone_set('Africa/Nairobi');
+    $tz = 'Africa/Nairobi';
+    $timestamp = time();
+    $dt = new DateTime("now", new DateTimeZone($tz));
+    $dt->setTimestamp($timestamp);
     $request = (object)$_REQUEST;
     $insert = $wpdb->insert('student_activities', array(
         'student_id' => $request->student_id,
@@ -405,7 +407,7 @@ function ajax_add_activity()
         'activity_title' => $request->activity_title,
         'activity_note' => $request->activity_note,
         'teacher_d' => $request->teacher_id,
-        'activity_time' => date('Y-m-d h:i:s a'),
+        'activity_time' =>  $dt->format('Y-m-d H:i:s'),
 
     ));
 
@@ -430,14 +432,17 @@ add_action('wp_ajax_ajax_add_comment', 'ajax_add_comment');
 function ajax_add_comment()
 {
     global $wpdb;
-    date_default_timezone_set('Africa/Nairobi');
+    $tz = 'Africa/Nairobi';
+    $timestamp = time();
+    $dt = new DateTime("now", new DateTimeZone($tz));
+    $dt->setTimestamp($timestamp);
     $request = (object)$_REQUEST;
     $insert = $wpdb->insert('comments', array(
         'student_id' => $request->student_id,
         'activity_id' => $request->activity_id,
         'comment' => $request->comment,
         'commenter_id' => $request->commenter_id,
-        'activity_time' => date('Y-m-d h:i:s a'),
+        'activity_time' => $dt->format('Y-m-d H:i:s'),
 
     ));
 
@@ -547,12 +552,16 @@ function ajax_set_subscription()
     date_default_timezone_set('Africa/Nairobi');
     $request = (object)$_REQUEST;
     $isAjax = $request->isAjax;
+    $tz = 'Africa/Nairobi';
+    $timestamp = time();
+    $dt = new DateTime("now", new DateTimeZone($tz));
+    $dt->setTimestamp($timestamp);
     if ($isAjax) {
 
         $insert = $wpdb->insert('subscriptions', array(
             'user_id' => $request->user_id,
             'amount' => $request->amount,
-            'start_date' => date("Y-m-d H:i:s"),
+            'start_date' => $dt->format('Y-m-d H:i:s'),
             'end_date' => date('Y-m-d', strtotime("+90 days")),
             'transaction_code' => $request->transactionCode,
             'quantity' => 1,
