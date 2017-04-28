@@ -7,9 +7,11 @@
  */
 
 get_header(); $user = wp_get_current_user();
-
-echo phpinfo();
-
+$tz = 'Africa/Nairobi';
+$timestamp = time();
+$dt = new DateTime("now", new DateTimeZone($tz)); //first argument "must" be a string
+$dt->setTimestamp($timestamp); //adjust the object to correct timestamp
+echo $dt->format('d.m.Y, H:i:s');
 if($user->roles[0] =='parent'){
     $price = 300;
 }else{
