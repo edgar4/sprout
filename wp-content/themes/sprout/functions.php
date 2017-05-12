@@ -289,6 +289,32 @@ function save_upload_details($file, $request)
 
 }
 
+function add_school($request)
+{
+    global $wpdb;;
+    $wpdb->show_errors();
+    $table_name = 'schools';
+    $insert = $wpdb->insert(
+        $table_name,
+        array(
+            'school_name' => $request->school_name,
+            'school_admin' => 0,
+
+
+        ),
+        array(
+            '%s',
+            '%d',
+
+        )
+    );
+
+    if ($insert) {
+        return true;
+    }
+    return false;
+}
+
 add_action('wp_ajax_nopriv_ajax_get_students', 'ajax_get_students');
 add_action('wp_ajax_ajax_get_students', 'ajax_get_students');
 function ajax_get_students()
@@ -408,7 +434,7 @@ function ajax_add_activity()
         'activity_title' => $request->activity_title,
         'activity_note' => $request->activity_note,
         'teacher_d' => $request->teacher_id,
-        'activity_time' =>  $dt->format('Y-m-d H:i:s'),
+        'activity_time' => $dt->format('Y-m-d H:i:s'),
 
     ));
 
@@ -568,15 +594,14 @@ function ajax_set_subscription()
             'quantity' => 1,
 
         ));
-        
-         
+
 
         if ($insert) {
             echo json_encode(array('message' => 'subscription successfully update you will recieve a confirmation email shortly'));
             wp_mail();
             exit;
 
-        }else{
+        } else {
             echo json_encode(array('message' => 'subscription  not updated'));
             exit;
         }
@@ -587,13 +612,15 @@ function ajax_set_subscription()
 
 }
 
-function prefix_send_email_to_admin() {
+function prefix_send_email_to_admin()
+{
     $request = (object)$_REQUEST;
     var_dump($request);
 
 }
-add_action( 'admin_post_nopriv_contact_form', 'prefix_send_email_to_admin' );
-add_action( 'admin_post_contact_form', 'prefix_send_email_to_admin' );
+
+add_action('admin_post_nopriv_contact_form', 'prefix_send_email_to_admin');
+add_action('admin_post_contact_form', 'prefix_send_email_to_admin');
 
 
 

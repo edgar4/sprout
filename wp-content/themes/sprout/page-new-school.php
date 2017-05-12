@@ -21,7 +21,22 @@ get_header(); ?>
     <div class="widget-box" style="padding-left: 5em;">
         <div class="widget-content nopadding">
 
-            <?php if (wp_get_current_user()->roles[0] == 'administrator') : ?>
+            <?php if (wp_get_current_user()->roles[0] == 'administrator') :
+
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $request = (object)$_REQUEST;
+                    add_school($request);
+                }
+
+                ?>
+
+                <form action="<?php echo site_url().'/new-school'?>" method="post">
+                    <div class="form-group">
+                        <label for="email">School name</label>
+                        <input type="text" name="school_name" class="form-control" id="school_name">
+                    </div>
+                    <button type="submit" class="btn btn-default"> Add School</button>
+                </form>
 
             <?php endif ?>
         </div>
