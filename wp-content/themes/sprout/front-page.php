@@ -87,6 +87,7 @@
             var form = $('#loginform-1').serialize()
             $.post("<?php echo site_url() . '/wp-admin/admin-ajax.php?action=ajax_login'; ?>", form, function (data, status) {
                 var obj = jQuery.parseJSON(data)
+                console.log(data)
                 if (obj.loggedin) {
                     location.replace("dashboard")
                 }
