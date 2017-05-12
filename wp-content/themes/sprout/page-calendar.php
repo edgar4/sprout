@@ -50,7 +50,7 @@ get_header(); ?>
                                 <p>Enter event description:</p>
                                 <p>
                                     <textarea id="desc" required></textarea>
-                                    <input type="hidden" id="school" value="1">
+                                    <input type="hidden" id="school" value="<?php echo get_user_meta(wp_get_current_user()->ID, 'school', true)?>">
                                     <input type="hidden" id="teacher" value="<?php echo get_current_user_id()?>">
                                 </p>
 
