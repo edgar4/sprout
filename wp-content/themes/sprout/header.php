@@ -20,6 +20,13 @@
     <link rel="profile" href="http://gmpg.org/xfn/11">
     <?php wp_head(); ?>
     <script src="<?php echo get_stylesheet_directory_uri() . '/assets/'; ?>js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.min.css">
+    <script>
+        $(document).ready(function () {
+            $('.chosen').chosen();
+        })
+    </script>
 </head>
 <body>
 
@@ -87,12 +94,16 @@
 
         <?php elseif ($user->roles[0] == 'teacher') : ?>
             <li><a href="<?php echo site_url() . '/dashboard/new-student'; ?>"><i class="icon icon-fullscreen"></i>
-                    <span> Add Teacher</span></a>
+                    <span> Add Student</span></a>
             </li>
 
 
         <?php elseif ($user->roles[0] == 'school_admin') : ?>
             <li><a href="<?php echo site_url() . '/dashboard/new-user'; ?>"><i class="icon icon-fullscreen"></i> <span> Add Teacher</span></a>
+            </li>
+
+            <li><a href="<?php echo site_url() . '/dashboard/new-student'; ?>"><i class="icon icon-fullscreen"></i>
+                    <span> Add Student</span></a>
             </li>
 
 

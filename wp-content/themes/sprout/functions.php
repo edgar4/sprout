@@ -48,7 +48,12 @@ function ajax_login()
         $info['remember'] = true;
         $user_signon = wp_signon($info, false);
         if (is_wp_error($user_signon)) {
-            echo json_encode(array('loggedin' => false, 'message' => strip_tags($user_signon->get_error_message(), '<strong>')));
+            echo json_encode(array(
+                    'loggedin' => false,
+                    'message' => strip_tags($user_signon->get_error_message(), '<strong>'),
+                    'error' => $user_signon,
+                )
+            );
         } else {
             wp_set_current_user($user_signon->ID);
             $user = get_userdata(get_current_user_id());

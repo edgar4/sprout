@@ -86,7 +86,7 @@ function hide_admin_bar_from_front_end()
 
 add_filter('show_admin_bar', 'hide_admin_bar_from_front_end');
 
-function B_get_students($isStudent=false)
+function B_get_students($isStudent = false)
 {
     global $wpdb;
     $table_name = 'students';
@@ -156,7 +156,7 @@ function get_school_calendar()
     global $wpdb;
     $table_name = 'events';
     $request = (object)$_REQUEST;
-    $results = $wpdb->get_results("SELECT * FROM " . $table_name . " WHERE school_id = " . 1
+    $results = $wpdb->get_results("SELECT * FROM " . $table_name . " WHERE school_id = " . get_user_meta(wp_get_current_user()->ID, 'school', true)
         . "   ORDER BY id  DESC LIMIT 10", OBJECT);
 
     return $results;

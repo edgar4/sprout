@@ -20,11 +20,13 @@ get_header(); ?>
 <div class="container-fluid">
     <div class="widget-box" style="padding-left: 5em;">
         <div class="widget-content nopadding">
-            <?php echo get_user_meta($user->ID,'school') ?>
-            <?php $user = wp_get_current_user(); if ($user->roles[0] == 'administrator') {
+            <div class="error"></div>
+            <?php echo get_user_meta($user->ID, 'school') ?>
+            <?php $user = wp_get_current_user();
+            if ($user->roles[0] == 'administrator') {
                 echo do_shortcode("[user-meta-registration form=\"School Admin form\"]");
             } else if ($user->roles[0] == 'school_admin') {
-              echo do_shortcode("[user-meta-registration form=\"School Teacher / parent Form\"]");
+                custom_registration_function();
             }
 
             ?>
@@ -33,8 +35,25 @@ get_header(); ?>
 </div>
 <script>
     $(document).ready(function () {
+        $('#fucking-submit').click(function (e) {
+            e.preventDefault();
+            console.log('fucking stoped')
+            var form = $('#teacher-form').serialize()
+            $.post("<?php echo site_url() . '/wp-admin/admin-ajax.php?action=custom_registration_function'; ?>", form, function (data, status) {
+                console.log(data)
+                if (data.msg == 'success') {
+                    $('.error').text('Teacher has been added')
+                    $('#teacher-form').resetForm();
+                }
+                if (data.msg != 'success') {
+                    $('.error').html(data).css('color','red')
+                }
+
+            });
+        })
+
         $('.school_options').append('<?php echo school_options()?>');
-        $('.parent-teacher-school').append('<?php echo get_user_meta($user->ID,'school',true)?>');
+        $('.parent-teacher-school').append('<?php echo get_user_meta($user->ID, 'school', true)?>');
 
     })
 </script>

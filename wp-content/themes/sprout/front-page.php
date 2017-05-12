@@ -58,23 +58,7 @@
                 </button></span>
         </div>
     </form>
-    <!--    <form id="recoverform" action="#" class="form-vertical">-->
-    <!--        <p class="normal_text">Enter your e-mail address below and we will send you instructions how to recover a-->
-    <!--            password.</p>-->
-    <!---->
-    <!--        <div class="controls">-->
-    <!--            <div class="main_input_box">-->
-    <!--                <span class="add-on bg_lo"><i class="icon-envelope"></i></span><input type="text"-->
-    <!--                                                                                      placeholder="E-mail address"/>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!---->
-    <!--        <div class="form-actions">-->
-    <!--            <span class="pull-left"><a href="#" class="flip-link btn btn-success" id="to-login">&laquo; Back to-->
-    <!--                    login</a></span>-->
-    <!--            <span class="pull-right"><a class="btn btn-info"/>Reecover</a></span>-->
-    <!--        </div>-->
-    <!--    </form>-->
+
 </div>
 
 <script src="<?php echo get_stylesheet_directory_uri() . '/assets/'; ?>js/jquery.min.js"></script>
@@ -84,9 +68,17 @@
         $("#to-login").click(function (e) {
             e.preventDefault();
             console.log('prevented');
-            var form = $('#loginform-1').serialize()
+            var user_pass, user_name;
+            user_name = $('#user_login').val();
+            user_pass = $('#user_pass').val();
+            var form = {
+                'user_pass': user_pass,
+                'user_name': user_name
+            }
+            console.log(form)
             $.post("<?php echo site_url() . '/wp-admin/admin-ajax.php?action=ajax_login'; ?>", form, function (data, status) {
                 var obj = jQuery.parseJSON(data)
+                console.log(data)
                 if (obj.loggedin) {
                     location.replace("dashboard")
                 }
