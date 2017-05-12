@@ -1,5 +1,6 @@
 <?php
 require_once 'inc/template-functions.php';
+require_once 'inc/custom-registration.php';
 
 
 // Allow from any origin
