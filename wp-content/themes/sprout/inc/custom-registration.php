@@ -1,24 +1,28 @@
 <?php
+add_action('wp_ajax_nopriv_custom_registration_function', 'custom_registration_function');
+add_action('wp_ajax_custom_registration_function', 'custom_registration_function');
 function custom_registration_function()
 {
-    if (isset($_POST['submit'])) {
+    $request = (object)$_REQUEST;
+    global $username, $password, $email, $school, $first_name, $last_name, $nickname, $bio;
+    if (isset($request->username)) {
         registration_validation(
-            $_POST['username'],
-            $_POST['password'],
-            $_POST['email'],
-            $_POST['school'],
-            $_POST['fname'],
-            $_POST['lname'],
-            $_POST['nickname'],
-            $_POST['bio']
+            $request->username,
+            $request->password,
+            $request->email,
+            'http://sprout-ke.co.ke',
+            $request->fname,
+            $request->lname,
+            $request->nickname,
+            $request->bio
         );
 
 // sanitize user form input
-        global $username, $password, $email, $school, $first_name, $last_name, $nickname, $bio;
+
         $username = sanitize_user($_POST['username']);
         $password = esc_attr($_POST['password']);
         $email = sanitize_email($_POST['email']);
-        $school = esc_url($_POST['school']);
+        $school = sanitize_text_field($_POST['school']);
         $first_name = sanitize_text_field($_POST['fname']);
         $last_name = sanitize_text_field($_POST['lname']);
         $nickname = sanitize_text_field($_POST['nickname']);
@@ -26,6 +30,7 @@ function custom_registration_function()
 
 // call @function complete_registration to create the user
 // only when no WP_error is found
+
         complete_registration(
             $username,
             $password,
@@ -36,6 +41,8 @@ function custom_registration_function()
             $nickname,
             $bio
         );
+
+       exit;
     }
 
     registration_form(
@@ -61,7 +68,7 @@ function school_options()
     foreach ($results as $school) {
         $options .= '<option value="' . $school->id . '"> ' . $school->school_name . '</option>';
 
-        }
+    }
 
     return $options;
 
@@ -82,7 +89,7 @@ function registration_form($username, $password, $email, $school, $first_name, $
 ';
 
     echo '
-<form action="' . $_SERVER['REQUEST_URI'] . '" method="post">
+<form action="" method="post" id="teacher-form">
     <div class="controls">
         <label for="username">Username <strong>*</strong></label>
         <input type="text" name="username" value="' . (isset($_POST['username']) ? $username : null) . '" class="form-control">
@@ -99,11 +106,7 @@ function registration_form($username, $password, $email, $school, $first_name, $
     </div>
 
     <div class="controls">
-        <label for="school">school</label>
-        <select type="text" name="school" class="form-control">
-        
-        ' . school_options() . '
-        </select>
+      
     </div class="controls">
 
     <div class="controls">
@@ -125,7 +128,7 @@ function registration_form($username, $password, $email, $school, $first_name, $
         <label for="bio">About / Bio</label>
         <textarea name="bio" class="form-control">' . (isset($_POST['bio']) ? $bio : null) . '</textarea>
     </div>
-    <input type="submit" name="submit" value="Register"/>
+    <input type="submit" name="submit" id="fucking-submit" value="Register"/>
 </form>
 ';
 }
@@ -194,9 +197,12 @@ function complete_registration()
             'last_name' => $last_name,
             'nickname' => $nickname,
             'description' => $bio,
+            'role' => 'teacher',
         );
-        $user = wp_insert_user($userdata);
-        echo 'Registration complete. Goto <a href="' . get_site_url() . '/wp-login.php">login page</a>.';
+        $user_id = wp_insert_user($userdata);
+        update_user_meta($user_id, 'school', get_user_meta(wp_get_current_user()->ID, 'school', true));
+
+        echo json_encode(array('msg' => 'success'));
     }
 }
 
