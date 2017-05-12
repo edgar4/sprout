@@ -29,7 +29,6 @@
 	var ajax_url = '<?php echo admin_url('admin-ajax.php')?>';
 </script>
 <script src="<?php echo get_stylesheet_directory_uri() .'/assets/';?>js/excanvas.min.js"></script>
-<script src="<?php echo get_stylesheet_directory_uri() .'/assets/';?>js/jquery.min.js"></script>
 <script src="<?php echo get_stylesheet_directory_uri() .'/assets/';?>js/jquery.ui.custom.js"></script>
 <script src="<?php echo get_stylesheet_directory_uri() .'/assets/';?>js/bootstrap.min.js"></script>
 <script src="<?php echo get_stylesheet_directory_uri() .'/assets/';?>js/jquery.flot.min.js"></script>

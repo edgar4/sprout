@@ -17,12 +17,28 @@
 
 get_header(); ?>
 
-    <div class="container-fluid">
-        <div class="widget-box">
-            <?php  echo do_shortcode("[user-meta-registration form=\"School Admin form\"]");?>
+<div class="container-fluid">
+    <div class="widget-box" style="padding-left: 5em;">
+        <div class="widget-content nopadding">
 
+            <?php if (wp_get_current_user()->roles[0] == 'administrator') {
+                echo do_shortcode("[user-meta-registration form=\"School Admin form\"]");
+            } else if (wp_get_current_user()->roles[0] == 'school_admin') {
+              echo do_shortcode("[user-meta-registration form=\"School Teacher / parent Form\"]");
+            }
+
+            ?>
         </div>
     </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.school_options').append('<?php echo school_options()?>');
+
+        console.log('<?php echo school_options()?>')
+    })
+</script>
+
+<?php get_footer(); ?>
 
 
-<?php get_footer();
