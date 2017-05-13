@@ -152,7 +152,7 @@ function get_students()
     $html = '';
     $results = $wpdb->get_results("SELECT * FROM " . $table_name
         . " INNER JOIN schools  ON students.school = schools.id  
-             WHERE students.school  = " . get_user_meta(wp_get_current_user()->ID, 'school', true), OBJECT);
+           ", OBJECT);
     echo $wpdb->last_error;
     foreach ($results as $result) {
 
@@ -287,8 +287,8 @@ function save_upload_details($file, $request)
     if ($insert) {
         $message['success'] = 'Uploaded, thanks';
         //set_upload_error($message);
-        //wp_redirect(wp_get_referer());
-        echo 'uploaded';
+        wp_redirect(wp_get_referer());
+        //echo 'uploaded';
         exit;
     }
 
@@ -357,7 +357,7 @@ FROM " . $table_name
             . "  INNER JOIN schools  ON students.school = schools.id "
             . "  INNER JOIN wp_users  ON student_activities.teacher_d=  wp_users.ID "
             . "WHERE students.id = " . $request->student_id . ' AND activities.id = ' . $request->activityId
-             ." AND students.school  = " . get_user_meta(wp_get_current_user()->ID, 'school', true)
+            . " AND students.school  = " . get_user_meta(wp_get_current_user()->ID, 'school', true)
             , OBJECT);
 
         if ($isAjax) {
