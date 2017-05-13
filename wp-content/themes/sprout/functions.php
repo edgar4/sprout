@@ -51,7 +51,6 @@ function ajax_login()
             echo json_encode(array(
                     'loggedin' => false,
                     'message' => strip_tags($user_signon->get_error_message(), '<strong>'),
-                    'error' => $user_signon,
                 )
             );
         } else {
@@ -151,8 +150,9 @@ function get_students()
     $table_name = 'students';
 
     $html = '';
-    $results = $wpdb->get_results("SELECT * FROM " . $table_name . " INNER JOIN schools  ON students.school = schools.id ", OBJECT);
-
+    $results = $wpdb->get_results("SELECT * FROM " . $table_name
+        . " INNER JOIN schools  ON students.school = schools.id  
+             WHERE students.school  = " . get_user_meta(wp_get_current_user()->ID, 'school', true), OBJECT);
     echo $wpdb->last_error;
     foreach ($results as $result) {
 
@@ -329,7 +329,8 @@ function ajax_get_students()
 
     $html = '';
     $results = $wpdb->get_results("SELECT students.id, students.name, students.class,students.image,schools.id AS school_id, schools.school_name , schools.school_admin  FROM 
-" . $table_name . " INNER JOIN schools  ON students.school = schools.id ", OBJECT);
+" . $table_name . " INNER JOIN schools  ON students.school = schools.id  
+                    WHERE students.school  = " . get_user_meta(wp_get_current_user()->ID, 'school', true), OBJECT);
 
     echo json_encode(array('students' => $results));
 
@@ -355,6 +356,7 @@ FROM " . $table_name
             . "  INNER JOIN schools  ON students.school = schools.id "
             . "  INNER JOIN wp_users  ON student_activities.teacher_d=  wp_users.ID "
             . "WHERE students.id = " . $request->student_id . ' AND activities.id = ' . $request->activityId
+             ." AND students.school  = " . get_user_meta(wp_get_current_user()->ID, 'school', true)
             , OBJECT);
 
         if ($isAjax) {
