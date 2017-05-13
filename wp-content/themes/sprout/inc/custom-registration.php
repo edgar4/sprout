@@ -4,7 +4,7 @@ add_action('wp_ajax_custom_registration_function', 'custom_registration_function
 function custom_registration_function()
 {
     $request = (object)$_REQUEST;
-    global $username, $password, $email, $school, $first_name, $last_name, $nickname, $bio;
+    global $username, $password, $email, $school, $first_name, $last_name, $nickname, $bio,$roles;
     if (isset($request->username)) {
         registration_validation(
             $request->username,
@@ -14,7 +14,8 @@ function custom_registration_function()
             $request->fname,
             $request->lname,
             $request->nickname,
-            $request->bio
+            $request->bio,
+            $request->roles
         );
 
 // sanitize user form input
@@ -27,6 +28,7 @@ function custom_registration_function()
         $last_name = sanitize_text_field($_POST['lname']);
         $nickname = sanitize_text_field($_POST['nickname']);
         $bio = esc_textarea($_POST['bio']);
+        $roles = sanitize_text_field($_POST['roles']);
 
 // call @function complete_registration to create the user
 // only when no WP_error is found
@@ -39,10 +41,11 @@ function custom_registration_function()
             $first_name,
             $last_name,
             $nickname,
-            $bio
+            $bio,
+            $roles
         );
 
-       exit;
+        exit;
     }
 
     registration_form(
@@ -53,7 +56,8 @@ function custom_registration_function()
         $first_name,
         $last_name,
         $nickname,
-        $bio
+        $bio,
+        $roles
     );
 }
 
@@ -62,19 +66,33 @@ function school_options()
 
     global $wpdb;
     $results = $wpdb->get_results('SELECT * FROM schools ', OBJECT);
-
     $options = '';
-
     foreach ($results as $school) {
         $options .= '<option value="' . $school->id . '"> ' . $school->school_name . '</option>';
 
     }
-
     return $options;
 
 }
 
-function registration_form($username, $password, $email, $school, $first_name, $last_name, $nickname, $bio)
+function show_roles()
+{
+    global $wp_roles;
+
+    $html = '<select name="roles" class="form-control">';
+    foreach ($wp_roles->roles as $key => $value) {
+        if ($key == 'parent' || $key == 'school_admin') {
+            $html .= '<option value="' . $key . '">' . $value['name'] . '</option>';
+        }
+
+    }
+
+    $html .= '</select>';
+
+    return $html;
+}
+
+function registration_form($username, $password, $email, $school, $first_name, $last_name, $nickname, $bio,$roles)
 {
     echo '
 <style>
@@ -106,7 +124,7 @@ function registration_form($username, $password, $email, $school, $first_name, $
     </div>
 
     <div class="controls">
-      
+
     </div class="controls">
 
     <div class="controls">
@@ -119,6 +137,10 @@ function registration_form($username, $password, $email, $school, $first_name, $
         <input type="text" name="lname" value="' . (isset($_POST['lname']) ? $last_name : null) . '" class="form-control">
     </div>
 
+    <div class="controls">
+        <label for="firstname">Choose Roles </label>
+        ' . show_roles() . '
+    </div>
     <div class="controls">
         <label for="nickname">Nickname</label>
         <input type="text" name="nickname" value="' . (isset($_POST['nickname']) ? $nickname : null) . '" class="form-control">
@@ -133,7 +155,7 @@ function registration_form($username, $password, $email, $school, $first_name, $
 ';
 }
 
-function registration_validation($username, $password, $email, $school, $first_name, $last_name, $nickname, $bio)
+function registration_validation($username, $password, $email, $school, $first_name, $last_name, $nickname, $bio,$roles)
 {
     global $reg_errors;
     $reg_errors = new WP_Error;
@@ -186,7 +208,7 @@ function registration_validation($username, $password, $email, $school, $first_n
 function complete_registration()
 {
 
-    global $reg_errors, $username, $password, $email, $school, $first_name, $last_name, $nickname, $bio;
+    global $reg_errors, $username, $password, $email, $school, $first_name, $last_name, $nickname, $bio, $roles;
     if (count($reg_errors->get_error_messages()) < 1) {
         $userdata = array(
             'user_login' => $username,
@@ -197,11 +219,10 @@ function complete_registration()
             'last_name' => $last_name,
             'nickname' => $nickname,
             'description' => $bio,
-            'role' => 'teacher',
+            'role' => $roles
         );
         $user_id = wp_insert_user($userdata);
         update_user_meta($user_id, 'school', get_user_meta(wp_get_current_user()->ID, 'school', true));
-
         echo json_encode(array('msg' => 'success'));
     }
 }
