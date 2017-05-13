@@ -4,7 +4,7 @@ add_action('wp_ajax_custom_registration_function', 'custom_registration_function
 function custom_registration_function()
 {
     $request = (object)$_REQUEST;
-    global $username, $password, $email, $school, $first_name, $last_name, $nickname, $bio,$roles;
+    global $username, $password, $email, $school, $first_name, $last_name, $nickname, $bio, $roles;
     if (isset($request->username)) {
         registration_validation(
             $request->username,
@@ -81,7 +81,7 @@ function show_roles()
 
     $html = '<select name="roles" class="form-control">';
     foreach ($wp_roles->roles as $key => $value) {
-        if ($key == 'parent' || $key == 'school_admin' || $key=='teacher') {
+        if ($key == 'parent' || $key == 'school_admin' || $key == 'teacher') {
             $html .= '<option value="' . $key . '">' . $value['name'] . '</option>';
         }
 
@@ -92,7 +92,7 @@ function show_roles()
     return $html;
 }
 
-function registration_form($username, $password, $email, $school, $first_name, $last_name, $nickname, $bio,$roles)
+function registration_form($username, $password, $email, $school, $first_name, $last_name, $nickname, $bio, $roles)
 {
     echo '
 <style>
@@ -155,7 +155,7 @@ function registration_form($username, $password, $email, $school, $first_name, $
 ';
 }
 
-function registration_validation($username, $password, $email, $school, $first_name, $last_name, $nickname, $bio,$roles)
+function registration_validation($username, $password, $email, $school, $first_name, $last_name, $nickname, $bio, $roles)
 {
     global $reg_errors;
     $reg_errors = new WP_Error;
@@ -223,6 +223,14 @@ function complete_registration()
         );
         $user_id = wp_insert_user($userdata);
         update_user_meta($user_id, 'school', get_user_meta(wp_get_current_user()->ID, 'school', true));
+
+        $to = $email;
+        $subject = "Sprout Registration";
+        $message = '<p> Welcome to Sprout</p>';
+        $message .= '<p>Your username ' . $username . '</p>';
+        $message .= '<p>Your Login ' . $password . '</p>';
+
+        wp_mail($to, $subject, $message);
         echo json_encode(array('msg' => 'success'));
     }
 }
