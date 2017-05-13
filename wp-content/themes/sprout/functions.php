@@ -272,6 +272,7 @@ function save_upload_details($file, $request)
             'school' => $request->school,
             'class' => $request->class,
             'image' => $fileDetails->url,
+            'parent' => $request->parent
 
         ),
         array(
