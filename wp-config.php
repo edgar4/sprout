@@ -22,7 +22,8 @@
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define('DB_NAME', 'sproute');
-
+define('WP_HOME','https://www.dashboard.sprout-ke.co.ke/');
+define('WP_SITEURL','https://www.dashboard.sprout-ke.co.ke/');
 /** MySQL database username */
 define('DB_USER', 'root');
 
