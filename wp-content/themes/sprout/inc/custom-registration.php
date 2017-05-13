@@ -81,7 +81,7 @@ function show_roles()
 
     $html = '<select name="roles" class="form-control">';
     foreach ($wp_roles->roles as $key => $value) {
-        if ($key == 'parent' || $key == 'school_admin') {
+        if ($key == 'parent' || $key == 'school_admin' || $key=='teacher') {
             $html .= '<option value="' . $key . '">' . $value['name'] . '</option>';
         }
 
