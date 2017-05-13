@@ -1,10 +1,10 @@
 <?php
-if(!is_user_logged_in()){
-
-    wp_redirect(site_url() .'/wp-login.php');
-}else{
-    wp_redirect(site_url() .'/dashboard');
-}
+//if(!is_user_logged_in()){
+//
+//    wp_redirect(site_url() .'/wp-login.php');
+//}else{
+//    wp_redirect(site_url() .'/dashboard');
+//}
 ?>
 
 
@@ -74,8 +74,8 @@ if(!is_user_logged_in()){
             user_name = $('#user_login').val();
             user_pass = $('#user_pass').val();
             var form = {
-                'user_pass': user_pass,
-                'user_name': user_name
+                'password': user_pass,
+                'username': user_name
             }
             console.log(form)
             $.post("<?php echo site_url() . '/wp-admin/admin-ajax.php?action=ajax_login'; ?>", form, function (data, status) {
