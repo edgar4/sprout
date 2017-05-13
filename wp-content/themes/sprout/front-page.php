@@ -2,6 +2,8 @@
 //if(!is_user_logged_in()){
 //
 //    wp_redirect(site_url() .'/wp-login.php');
+//}else{
+   // wp_redirect(site_url() .'/dashboard');
 //}
 ?>
 

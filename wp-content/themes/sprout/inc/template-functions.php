@@ -97,13 +97,18 @@ function B_get_students($isStudent = false)
             . "  INNER JOIN students  ON student_activities.student_id = students.id "
             . "  INNER JOIN activities  ON student_activities.activity_id = activities.id "
             . "  WHERE students.id = " . $request->st
-            . "   ORDER BY student_activities.activity_time DESC", OBJECT);
+            . "  AND students.school  = " . get_user_meta(wp_get_current_user()->ID, 'school', true)
+            . "  ORDER BY student_activities.activity_time DESC
+            ", OBJECT);
 
     } else {
-        $results = $wpdb->get_results("SELECT students.id, students.name, students.class,students.image,schools.id AS school_id, schools.school_name , schools.school_admin  FROM 
-" . $table_name . " INNER JOIN schools  ON students.school = schools.id ", OBJECT);
+        $results = $wpdb->get_results("SELECT students.id, students.name, students.class,students.image,schools.id 
+                                      AS school_id, schools.school_name , schools.school_admin  FROM 
+                                      " . $table_name . " INNER JOIN schools  ON students.school = schools.id 
+                                      WHERE schools.id  = " . get_user_meta(wp_get_current_user()->ID, 'school', true) . " 
+   
+   ", OBJECT);
     }
-
 
     return $results;
 }
