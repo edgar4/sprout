@@ -184,11 +184,11 @@ function get_student_list()
 {
     global $wpdb;
     $table_name = 'students';
-    $school = (int) get_user_meta(wp_get_current_user()->ID, 'school', true);
+    $school = (int)get_user_meta(wp_get_current_user()->ID, 'school', true);
     $html = '';
     $school = 3;
     $results = $wpdb->get_results(
-        "SELECT * FROM " . $table_name . "  INNER JOIN schools  ON students.school = schools.id   WHERE students.school  = ".$school
+        "SELECT * FROM " . $table_name . "  INNER JOIN schools  ON students.school = schools.id   WHERE students.school  = " . $school
         , OBJECT);
     echo $wpdb->last_error;
     foreach ($results as $result) {
@@ -326,6 +326,58 @@ function save_upload_details($file, $request)
         //echo 'uploaded';
         exit;
     }
+
+
+}
+
+
+function list_student_edit($id)
+{
+
+    global $wpdb;
+    $table_name = 'students';
+    $id = (int)$id;
+    $school = (int)get_user_meta(wp_get_current_user()->ID, 'school', true);
+    $school = 3;
+    $results = $wpdb->get_results(
+        "SELECT * FROM " . $table_name
+        . "  INNER JOIN schools  ON students.school = schools.id   WHERE students.school  = " . $school . " 
+        AND students.id =" . $id
+        , OBJECT);
+
+    return (object)$results[0];
+
+}
+
+add_action('wp_ajax_nopriv_edit_student', 'edit_student');
+add_action('wp_ajax_edit_student', 'edit_student');
+function edit_student()
+{
+    global $wpdb;
+    $request = (object)$_REQUEST;
+    $table_name = 'students';
+    $insert = $wpdb->update(
+        $table_name,
+        array(
+            'name' => $request->name,
+            'class' => $request->class,
+            'parent' => $request->parent
+
+        ),
+        array(
+            'id' => $request->id,
+
+        )
+    );
+    $message['msg'] = 'failed to save';
+    $message['error'] =  $insert;
+    if ($insert) {
+        $message['msg'] = 'Uploaded, thanks';
+
+
+    }
+    echo json_encode($message);
+    exit;
 
 
 }
