@@ -15,12 +15,16 @@
  * @version 1.0
  */
 
-get_header(); ?>
+get_header();
+$user = wp_get_current_user(); ?>
 
     <!--Action boxes-->
     <div class="container-fluid">
+        <?php if ($user->roles[0] == 'parent') {
+            //wp_redirect(site_url() . '/dashboard/student-activity/');
 
-
+            echo "<script> location.replace('/dashboard/student-activity/')</script>";
+        } ?>
         <div class="row-fluid col-md-offset-1 text-center">
             <div class="row">
                 <div class="widget-box2 text-center">
