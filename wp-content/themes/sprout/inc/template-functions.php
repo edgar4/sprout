@@ -122,7 +122,10 @@ add_action('admin_post_save_activity', 'prefix_admin_save_activity');
 function prefix_admin_save_activity($checking = false)
 {
     global $wpdb;
-
+    $tz = 'Africa/Nairobi';
+    //$timestamp = time();
+    $dt = new DateTime("now", new DateTimeZone($tz));
+    //$dt->setTimestamp($timestamp);
     $request = (object)$_REQUEST;
     if ($checking) {
         $insert = $wpdb->insert('student_activities', array(
@@ -131,25 +134,36 @@ function prefix_admin_save_activity($checking = false)
             'activity_title' => 'Check In',
             'activity_note' => 'Student checked in',
             'teacher_d' => get_current_user_id(),
-            'activity_time' => date('Y-m-d h:i:s a'),
+            'activity_time' => $dt->format('Y-m-d H:i:s'),
 
         ));
 
     } else {
         $insert = $wpdb->insert('student_activities', array(
             'student_id' => $request->student_id,
-            'activity_id' => $request->activity_id,
+            'activity_id' => $request->activity,
             'activity_title' => $request->activity_title,
             'activity_note' => $request->activity_note,
             'teacher_d' => get_current_user_id(),
-            'activity_time' => date('Y-m-d h:i:s a'),
+            'activity_time' => $dt->format('Y-m-d H:i:s'),
 
         ));
     }
 
+$url = site_url() . '/dashboard/student-activity/?activity=' . $request->activity;
 
     if ($insert) {
-        wp_redirect(site_url() . '/dashboard/student-activity/?activity=' . $request->activity_id);
+        ?>
+        <script>
+            $(document).ready(function () {
+
+                location.href = "<?php echo $url ?>"
+
+            })
+        </script>
+
+        <?php
+        //sprout_redirect(site_url() . '/dashboard/student-activity/?activity=' . $request->activity_id);
 
     }
 
@@ -167,4 +181,10 @@ function get_school_calendar()
     return $results;
 
 
+}
+
+add_action('wp_loaded', 'sprout_redirect');
+function sprout_redirect($url)
+{
+    wp_redirect($url);
 }
