@@ -41,11 +41,12 @@ get_header(); ?>
             var form = $('#teacher-form').serialize()
             $.post("<?php echo site_url() . '/wp-admin/admin-ajax.php?action=custom_registration_function'; ?>", form, function (data, status) {
                 console.log(data)
-                if (data.msg == 'success') {
-                    $('.error').text('Teacher has been added')
-                    $('#teacher-form').resetForm();
+                var obj = jQuery.parseJSON(data)
+                if (obj.msg == 'success') {
+                    $('.error').text('User has been added, you can continue to add more').css('color','red')
+                    $('#teacher-form').trigger("reset");
                 }
-                if (data.msg != 'success') {
+                if (obj.msg != 'success') {
                     $('.error').html(data).css('color','red')
                 }
 
