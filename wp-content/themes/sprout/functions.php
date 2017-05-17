@@ -519,9 +519,9 @@ function ajax_add_activity()
 {
     global $wpdb;
     $tz = 'Africa/Nairobi';
-    $timestamp = time();
+   // $timestamp = time();
     $dt = new DateTime("now", new DateTimeZone($tz));
-    $dt->setTimestamp($timestamp);
+    //$dt->setTimestamp($timestamp);
     $request = (object)$_REQUEST;
     $insert = $wpdb->insert('student_activities', array(
         'student_id' => $request->student_id,
@@ -555,9 +555,9 @@ function ajax_add_comment()
 {
     global $wpdb;
     $tz = 'Africa/Nairobi';
-    $timestamp = time();
+   // $timestamp = time();
     $dt = new DateTime("now", new DateTimeZone($tz));
-    $dt->setTimestamp($timestamp);
+    //$dt->setTimestamp($timestamp);
     $request = (object)$_REQUEST;
     $insert = $wpdb->insert('comments', array(
         'student_id' => $request->student_id,
