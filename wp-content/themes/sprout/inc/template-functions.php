@@ -139,6 +139,7 @@ function prefix_admin_save_activity($checking = false)
         ));
 
     } else {
+
         $insert = $wpdb->insert('student_activities', array(
             'student_id' => $request->student_id,
             'activity_id' => $request->activity,
@@ -148,9 +149,11 @@ function prefix_admin_save_activity($checking = false)
             'activity_time' => $dt->format('Y-m-d H:i:s'),
 
         ));
+        
+        sprout_redirect(site_url() . '/dashboard/student-activity/?activity=' . $request->activity);
     }
 
-$url = site_url() . '/dashboard/student-activity/?activity=' . $request->activity;
+      $url = site_url() . '/dashboard/student-activity/?activity=' . $request->activity;
 
     if ($insert) {
         ?>

@@ -19,7 +19,7 @@ get_header(); ?>
 
 <?php $request = request_object();
 if ($request->activity == 1) :
-    prefix_admin_save_activity(true);
+    //prefix_admin_save_activity(true);
 else:?>
     <div class="container-fluid">
         <hr>
@@ -43,7 +43,7 @@ else:?>
                                 <textarea name="activity_note" cols="150"> </textarea>
 
                                     <input type="hidden" name="action" value="save_activity">
-                                    <input type="hidden" name="activity_id" value="<?php echo request_object()->activity?>" >
+                                    <input type="hidden" name="activity" value="<?php echo request_object()->activity?>" >
                                     <input type="hidden" name="student_id" value="<?php echo request_object()->student_id?>">
                                 </div>
                             </div>
