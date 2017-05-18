@@ -71,16 +71,18 @@ get_header(); ?>
                      <div class="widget-content nopadding">
                          <form class="form-horizontal" method="post" action="#" name="basic_validate" id="basic_validate" novalidate="novalidate">
                              <div class="control-group col-xs-11 col-xs-offset-1 ">
-                                 <label class="control-label">Your Name</label>
 
-                                 <textarea class="col-xs-12 "></textarea>
-
+                                 &nbsp;<br/>&nbsp;<br/>
+                                 <textarea class="col-xs-12 form-control "></textarea>
+                                 <br/>&nbsp;<br/>&nbsp;<br/>&nbsp;<br/>
+                                 <input  type="submit" value="Comment" class="btn btn-success col-xs-12">
                              </div>
 
 
 
                              <div class="form-actions text-center">
-                                 <input  type="submit" value="Comment" class="btn btn-success col-xs-12">
+                                 <br/><br/><br/><br/>        <br/><br/><br/><br/>       <br/><br/><br/><br/>
+
                              </div>
                          </form>
                      </div>
