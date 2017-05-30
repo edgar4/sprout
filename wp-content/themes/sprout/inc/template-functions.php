@@ -128,14 +128,20 @@ function request_object()
 }
 
 add_action('admin_post_save_activity', 'prefix_admin_save_activity');
-function prefix_admin_save_activity($checking = false)
+function prefix_admin_save_activity($checking = false, $request)
 {
     global $wpdb;
     $tz = 'Africa/Nairobi';
     //$timestamp = time();
     $dt = new DateTime("now", new DateTimeZone($tz));
     //$dt->setTimestamp($timestamp);
-s
+    if ($request) {
+        $request = $request;
+
+    } else {
+        $request = (object)$_REQUEST;
+    }
+
 //    var_dump($request);
 //    var_dump($checking);
 //    exit;

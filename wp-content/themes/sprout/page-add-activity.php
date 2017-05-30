@@ -21,6 +21,14 @@ get_header(); ?>
 if ($request->activity == 1) :
     prefix_admin_save_activity(true);
 else:?>
+
+    <?php $action = empty($_REQUEST['action']) ? '' : $_REQUEST['action'];
+    if ($action) {
+        prefix_admin_save_activity(false, $_REQUEST);
+    } ?>
+
+
+    ?>
     <div class="container-fluid">
         <hr>
         <div class="row-fluid">
@@ -30,7 +38,8 @@ else:?>
                         <h5>Enter activity note</h5>
                     </div>
                     <div class="widget-content nopadding">
-                        <form class="form-horizontal" method="post" action="<?php echo esc_url( admin_url('admin-post.php') ); ?>">
+                        <form class="form-horizontal" method="post"
+                              action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
                             <div class="control-group">
                                 <label class="control-label">Activity Subject</label>
                                 <div class="controls">
@@ -40,11 +49,13 @@ else:?>
                             <div class="control-group">
                                 <label class="control-label">Activity Note</label>
                                 <div class="controls">
-                                <textarea name="activity_note" cols="150"> </textarea>
+                                    <textarea name="activity_note" cols="150"> </textarea>
 
                                     <input type="hidden" name="action" value="save_activity">
-                                    <input type="hidden" name="activity" value="<?php echo request_object()->activity?>" >
-                                    <input type="hidden" name="student_id" value="<?php echo request_object()->student_id?>">
+                                    <input type="hidden" name="activity"
+                                           value="<?php echo request_object()->activity ?>">
+                                    <input type="hidden" name="student_id"
+                                           value="<?php echo request_object()->student_id ?>">
                                 </div>
                             </div>
                             <div class="form-actions">
