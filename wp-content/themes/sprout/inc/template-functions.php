@@ -135,10 +135,10 @@ function prefix_admin_save_activity($checking = false)
     //$timestamp = time();
     $dt = new DateTime("now", new DateTimeZone($tz));
     //$dt->setTimestamp($timestamp);
-    $request = (object)$_REQUEST;
-    var_dump($request);
-    var_dump($checking);
-    exit;
+s
+//    var_dump($request);
+//    var_dump($checking);
+//    exit;
     if ($checking) {
         $insert = $wpdb->insert('student_activities', array(
             'student_id' => $request->student_id,
@@ -165,10 +165,10 @@ function prefix_admin_save_activity($checking = false)
         sprout_redirect(site_url() . '/dashboard/student-activity/?activity=' . $request->activity);
     }
 
-    var_dump($insert);
-    var_dump($request);
-
-    exit;
+//    var_dump($insert);
+//    var_dump($request);
+//
+//    exit;
 
 
     $url = site_url() . '/dashboard/student-activity/?activity=' . $request->activity;
