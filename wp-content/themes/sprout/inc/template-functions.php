@@ -136,7 +136,7 @@ function prefix_admin_save_activity($checking = false, $request)
     $dt = new DateTime("now", new DateTimeZone($tz));
     //$dt->setTimestamp($timestamp);
     if ($request) {
-        $request = $request;
+        $request =  (object) $request;
 
     } else {
         $request = (object)$_REQUEST;
