@@ -39,7 +39,7 @@ else:?>
                     </div>
                     <div class="widget-content nopadding">
                         <form class="form-horizontal" method="post"
-                              action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+                              action="">
                             <div class="control-group">
                                 <label class="control-label">Activity Subject</label>
                                 <div class="controls">
