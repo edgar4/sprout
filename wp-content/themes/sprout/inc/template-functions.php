@@ -161,7 +161,12 @@ function prefix_admin_save_activity($checking = false)
 
         sprout_redirect(site_url() . '/dashboard/student-activity/?activity=' . $request->activity);
     }
-    
+
+    var_dump($insert);
+    var_dump($request);
+
+    exit;
+
 
     $url = site_url() . '/dashboard/student-activity/?activity=' . $request->activity;
 
