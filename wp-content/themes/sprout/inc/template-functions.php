@@ -136,6 +136,9 @@ function prefix_admin_save_activity($checking = false)
     $dt = new DateTime("now", new DateTimeZone($tz));
     //$dt->setTimestamp($timestamp);
     $request = (object)$_REQUEST;
+    var_dump($request);
+    var_dump($checking);
+    exit;
     if ($checking) {
         $insert = $wpdb->insert('student_activities', array(
             'student_id' => $request->student_id,
