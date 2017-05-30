@@ -23,6 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 add_action('wp_ajax_nopriv_ajax_login', 'ajax_login');
 add_action('wp_ajax_ajax_login', 'ajax_login');
+add_action('init', 'set_default_users');
+
+function set_default_users()
+{
+    update_user_meta(3, 'school', 1);
+    update_user_meta(2, 'school', 1);
+}
 
 function ajax_login()
 { //get the POST data and sign user on
@@ -370,7 +377,7 @@ function edit_student()
         )
     );
     $message['msg'] = 'failed to save';
-    $message['error'] =  $insert;
+    $message['error'] = $insert;
     if ($insert) {
         $message['msg'] = 'Uploaded, thanks';
 
@@ -519,7 +526,7 @@ function ajax_add_activity()
 {
     global $wpdb;
     $tz = 'Africa/Nairobi';
-   // $timestamp = time();
+    // $timestamp = time();
     $dt = new DateTime("now", new DateTimeZone($tz));
     //$dt->setTimestamp($timestamp);
     $request = (object)$_REQUEST;
@@ -555,7 +562,7 @@ function ajax_add_comment()
 {
     global $wpdb;
     $tz = 'Africa/Nairobi';
-   // $timestamp = time();
+    // $timestamp = time();
     $dt = new DateTime("now", new DateTimeZone($tz));
     //$dt->setTimestamp($timestamp);
     $request = (object)$_REQUEST;

@@ -22,9 +22,12 @@ get_header(); ?>
             <div class="widget-title bg_lo" data-toggle="collapse" href="#collapseG3"><span class="icon"> <i
                         class="icon-chevron-down"></i> </span>
                 <h5>My Events</h5>
-                <div class="buttons"><a id="add-event" data-toggle="modal" href="#modal-add-event"
-                                        class="btn btn-inverse btn-mini"><i class="icon-plus icon-white"></i> Add new
-                        event</a>
+                <div class="buttons">
+                    <?php if (current_user_can('teacher') || current_user_can('editor') || current_user_can('administrator')) : ?>
+                        <a id="add-event" data-toggle="modal" href="#modal-add-event"
+                           class="btn btn-inverse btn-mini"><i class="icon-plus icon-white"></i> Add new
+                            event</a>
+                    <?php endif ?>
                     <div class="modal modal-container" id="modal-add-event">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">×</button>
@@ -36,22 +39,23 @@ get_header(); ?>
 
                                 <p>Enter event Title:</p>
                                 <p>
-                                    <input  type="" id="title" required/>
+                                    <input type="" id="title" required/>
                                 </p>
 
                                 <p>Enter event Start Date & Time</p>
                                 <p>
-                                    <input  type="datetime-local" id="startdate" required/>
+                                    <input type="datetime-local" id="startdate" required/>
                                 </p>
                                 <p>Enter event End Date & Time:</p>
                                 <p>
-                                    <input  type="datetime-local" id="enddate" required/>
+                                    <input type="datetime-local" id="enddate" required/>
                                 </p>
                                 <p>Enter event description:</p>
                                 <p>
                                     <textarea id="desc" required></textarea>
-                                    <input type="hidden" id="school" value="<?php echo get_user_meta(wp_get_current_user()->ID, 'school', true)?>">
-                                    <input type="hidden" id="teacher" value="<?php echo get_current_user_id()?>">
+                                    <input type="hidden" id="school"
+                                           value="<?php echo get_user_meta(wp_get_current_user()->ID, 'school', true) ?>">
+                                    <input type="hidden" id="teacher" value="<?php echo get_current_user_id() ?>">
                                 </p>
 
 
@@ -86,7 +90,6 @@ get_header(); ?>
             </div>
         </div>
     </div>
-
 
 
 <?php get_footer();

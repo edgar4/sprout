@@ -35,6 +35,7 @@ get_header(); ?>
                             <div class="article-post"><strong><span
                                         class="user-info"> <?php echo $student->name ?> </span></strong>
                                 <p> Class <?php echo $student->class ?></p></a>
+                            <?php if(current_user_can('teacher') || current_user_can('editor') || current_user_can('administrator')) :?>
                                 <div class="action pull-right">
                                     <a style="font-size: 3em;"
                                        href="<?php echo site_url() . '/dashboard/add/?activity=' . $request->activity . '&student_id=' . $student->id ?>">
@@ -47,6 +48,7 @@ get_header(); ?>
                                         ?>
 
                                 </div>
+                                <?php endif;?>
                             </div>
                             <span class="clearfix"></span>
 
