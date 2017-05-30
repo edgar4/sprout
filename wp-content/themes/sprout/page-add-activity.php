@@ -19,7 +19,7 @@ get_header(); ?>
 
 <?php $request = request_object();
 if ($request->activity == 1) :
-    //prefix_admin_save_activity(true);
+    prefix_admin_save_activity(true);
 else:?>
     <div class="container-fluid">
         <hr>
