@@ -101,6 +101,15 @@ function B_get_students($isStudent = false)
             . "  ORDER BY student_activities.activity_time DESC
             ", OBJECT);
 
+    }
+    if (current_user_can('parent')) {
+        $results = $wpdb->get_results("SELECT students.id, students.name, students.class,students.image,schools.id 
+                                      AS school_id, schools.school_name , schools.school_admin  FROM 
+                                      " . $table_name . " INNER JOIN schools  ON students.school = schools.id 
+                                      WHERE students.parent  = " . wp_get_current_user()->ID . " 
+   
+   ", OBJECT);
+
     } else {
         $results = $wpdb->get_results("SELECT students.id, students.name, students.class,students.image,schools.id 
                                       AS school_id, schools.school_name , schools.school_admin  FROM 
@@ -149,11 +158,11 @@ function prefix_admin_save_activity($checking = false)
             'activity_time' => $dt->format('Y-m-d H:i:s'),
 
         ));
-        
+
         sprout_redirect(site_url() . '/dashboard/student-activity/?activity=' . $request->activity);
     }
 
-      $url = site_url() . '/dashboard/student-activity/?activity=' . $request->activity;
+    $url = site_url() . '/dashboard/student-activity/?activity=' . $request->activity;
 
     if ($insert) {
         ?>
