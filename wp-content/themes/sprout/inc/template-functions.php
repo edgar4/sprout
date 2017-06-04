@@ -128,7 +128,7 @@ function request_object()
 }
 
 add_action('admin_post_save_activity', 'prefix_admin_save_activity');
-function prefix_admin_save_activity($checking = false, $request)
+function prefix_admin_save_activity($checking = false, $request=false)
 {
     global $wpdb;
     $tz = 'Africa/Nairobi';
@@ -168,7 +168,7 @@ function prefix_admin_save_activity($checking = false, $request)
 
         ));
 
-        sprout_redirect(site_url() . '/dashboard/student-activity/?activity=' . $request->activity);
+       // sprout_redirect(site_url() . '/dashboard/student-activity/?activity=' . $request->activity);
     }
 
 //    var_dump($insert);

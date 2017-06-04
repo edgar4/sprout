@@ -44,8 +44,9 @@ get_header(); ?>
                         <a href="<?php echo site_url() . '/dashboard/profile/?activity_id=' . $activity->id .'&student_id='.$activity->student_id?>">
                             <div class="user-thumb"><img width="40" height="40" alt="User"
                                                          src="<?php echo site_url().'/'.$activity->activity_icon?>"></div>
-                            <div class="article-post"><strong><span
-                                        class="user-info"> <?php echo $activity->activity_title ?> </span></strong>
+                            <div class="article-post"><strong>
+                                    <span class="user-info"> <?php echo $activity->activity_title ?> </span></strong>
+                                <p> Class <?php echo $activity->class ?></p>
                                 <p> Class <?php echo $activity->activity_note ?></p>
                         </a>
                         <div class="action pull-right">
