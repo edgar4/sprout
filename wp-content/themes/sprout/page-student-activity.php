@@ -29,35 +29,37 @@ get_header(); ?>
                     <?php $request = request_object();
                     $students = B_get_students();
                     foreach ($students as $student): ?>
-                        <li>
-                            <a href="<?php echo site_url() . '/dashboard/profile/?student_id=' . $student->id?>"><div class="user-thumb"><img width="40" height="40" alt="User"
+                    <li>
+                        <a href="<?php echo site_url() . '/dashboard/profile/?student_id=' . $student->id ?>">
+                            <div class="user-thumb"><img width="40" height="40" alt="User"
                                                          src="<?php echo $student->image ?>"></div>
                             <div class="article-post"><strong><span
                                         class="user-info"> <?php echo $student->name ?> </span></strong>
-                                <p> Class <?php echo $student->class ?></p></a>
-                            <?php if(current_user_can('teacher') || current_user_can('editor') || current_user_can('administrator')) :?>
-                                <div class="action pull-right">
-                                    <a style="font-size: 3em;"
-                                       href="<?php echo site_url() . '/dashboard/add/?activity=' . $request->activity . '&student_id=' . $student->id ?>">
+                                <p> Class <?php echo $student->class ?></p>
+                        </a>
+                        <?php if (current_user_can('teacher') || current_user_can('editor') || current_user_can('administrator') || current_user_can('school_admin')) : ?>
+                            <div class="action pull-right">
+                                <a style="font-size: 3em;"
+                                   href="<?php echo site_url() . '/dashboard/add/?activity=' . $request->activity . '&student_id=' . $student->id ?>">
 
-                                        <?php if ($request->activity == 1):
-                                            echo '<i class="icon-arrow-right"></i> </a>';
-                                        else:
-                                            echo '<i class="icon-plus-sign"></i> </a>';
-                                        endif;
-                                        ?>
+                                    <?php if ($request->activity == 1):
+                                        echo '<i class="icon-arrow-right"></i> </a>';
+                                    else:
+                                        echo '<i class="icon-plus-sign"></i> </a>';
+                                    endif;
+                                    ?>
 
-                                </div>
-                                <?php endif;?>
                             </div>
-                            <span class="clearfix"></span>
-
-                        </li>
-                    <?php endforeach; ?>
-
-                </ul>
+                        <?php endif; ?>
             </div>
+            <span class="clearfix"></span>
+
+            </li>
+            <?php endforeach; ?>
+
+            </ul>
         </div>
+    </div>
     </div>
 
 <?php get_footer();
