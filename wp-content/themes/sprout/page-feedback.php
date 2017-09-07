@@ -29,7 +29,7 @@ if($user->roles[0] =='parent'){
                     <ul>
                         <li>Go to the M-PESA menu on your phone</li>
                         <li>Select Pay Bill option</li>
-                        <li>Enter the following business number: <strong>759696</strong></li>
+                        <li>Enter the following business number: <strong>999446</strong></li>
                         <li>Enter <strong>SPT-<?php echo $user->ID?></strong> as the Account Number</li>
                         <li id="cart_total">Enter the total amount <strong> <?php echo $price?></strong></li>
                         <li>Enter your PIN and then send the money</li>
