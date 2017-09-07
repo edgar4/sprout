@@ -29,6 +29,9 @@
     </script>
 </head>
 <body>
+<style>
+   
+</style>
 
 <!--Header-part-->
 <div id="header">
@@ -45,27 +48,14 @@
                     class="icon icon-user"></i> <span
                     class="text"><?php echo wp_get_current_user()->user_login ?></span><b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li><a href="#"><i class="icon-user"></i> My Profile</a></li>
+                <li><a href="<?php echo site_url() . '/dashboard/edit-profile' ?>"><i class="icon-user"></i> My
+                        Profile</a></li>
                 <li class="divider"></li>
                 <li class="divider"></li>
                 <li><a href="<?php echo wp_logout_url($redirect); ?>"><i class="icon-key"></i> Log Out</a></li>
             </ul>
         </li>
-<!--        <li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages"-->
-<!--                                                   class="dropdown-toggle"><i class="icon icon-envelope"></i> <span-->
-<!--                    class="text">Notification</span> <span class="label label-important">5</span> <b class="caret"></b></a>-->
-<!--            <ul class="dropdown-menu">-->
-<!--                <li><a class="sAdd" title="" href="#"><i class="icon-plus"></i> new message</a></li>-->
-<!--                <li class="divider"></li>-->
-<!--                <li><a class="sInbox" title="" href="#"><i class="icon-envelope"></i> inbox</a></li>-->
-<!--                <li class="divider"></li>-->
-<!--                <li><a class="sOutbox" title="" href="#"><i class="icon-arrow-up"></i> outbox</a></li>-->
-<!--                <li class="divider"></li>-->
-<!--                <li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> trash</a></li>-->
-<!--            </ul>-->
-<!--        </li>-->
-<!--        <li class=""><a title="" href="--><?php //echo wp_logout_url(); ?><!--"><i class="icon icon-share-alt"></i> <span-->
-<!--                    class="text">Logout</span></a></li>-->
+
     </ul>
 </div>
 <!--close-top-Header-menu-->
@@ -76,7 +66,8 @@
 </div>
 <!--close-top-serch-->
 <!--sidebar-menu-->
-<div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
+<div id="sidebar">
+<!--    <a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>-->
     <ul>
         <li class="active"><a href="<?php echo site_url() . '/dashboard'; ?>"><i class="icon icon-home"></i> <span>Dashboard</span></a>
         </li>
