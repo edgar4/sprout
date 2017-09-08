@@ -22,15 +22,35 @@
     <script src="<?php echo get_stylesheet_directory_uri() . '/assets/'; ?>js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.7.0/chosen.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.min.css"/>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.full.js"></script>
+    <script
+        src="http://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.js"></script>
     <script>
+
         $(document).ready(function () {
             $('.chosen').chosen();
+            $('.datetimepicker-calendar').datetimepicker();
+
+            $('#form-events').hide();
+            $('#add-event').click(function () {
+                $('#form-events').toggle();
+            })
+
         })
     </script>
+
+    <style>
+        .datepicker {
+            z-index: 1151 !important;
+        }
+    </style>
 </head>
 <body>
 <style>
-   
+
 </style>
 
 <!--Header-part-->
@@ -67,7 +87,7 @@
 <!--close-top-serch-->
 <!--sidebar-menu-->
 <div id="sidebar">
-<!--    <a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>-->
+    <!--    <a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>-->
     <ul>
         <li class="active"><a href="<?php echo site_url() . '/dashboard'; ?>"><i class="icon icon-home"></i> <span>Dashboard</span></a>
         </li>

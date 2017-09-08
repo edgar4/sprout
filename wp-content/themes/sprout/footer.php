@@ -74,6 +74,8 @@
 	function resetMenu() {
 		document.gomenu.selector.selectedIndex = 2;
 	}
+
+
 </script>
 </body>
 </html>
