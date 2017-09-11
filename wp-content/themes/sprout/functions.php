@@ -724,5 +724,29 @@ function prefix_send_email_to_admin()
 add_action('admin_post_nopriv_contact_form', 'prefix_send_email_to_admin');
 add_action('admin_post_contact_form', 'prefix_send_email_to_admin');
 
+// update user data
+add_action('wp_ajax_nopriv_ajax_update_user_datan', 'ajax_update_user_data');
+add_action('wp_ajax_ajax_update_user_data', 'ajax_update_user_data');
+
+
+function ajax_update_user_data()
+{
+    $request = (object)$_REQUEST;
+    $user_id = $request->id;
+    $user_email = $request->email;
+    $user_name = $request->name;
+    if ($request->password && !empty($request->password)) {
+        wp_set_password($request->password, $user_id);
+    }
+    wp_update_user(array(
+        'ID' => $user_id,
+        'user_email' => $user_email,
+        'display_name' => $user_name
+
+    ));
+
+    echo "done";
+}
+
 
 
