@@ -725,7 +725,7 @@ add_action('admin_post_nopriv_contact_form', 'prefix_send_email_to_admin');
 add_action('admin_post_contact_form', 'prefix_send_email_to_admin');
 
 // update user data
-add_action('wp_ajax_nopriv_ajax_update_user_datan', 'ajax_update_user_data');
+add_action('wp_ajax_nopriv_ajax_update_user_data', 'ajax_update_user_data');
 add_action('wp_ajax_ajax_update_user_data', 'ajax_update_user_data');
 
 
