@@ -31,7 +31,7 @@ get_header(); ?>
 
                 </div>
                 <div class="widget-content nopadding updates collapse out in">
-                    <form action="" id="form-events" method="post" style="padding-top: 50px">
+                    <form action="" id="form-events" method="post" style="padding-top: 50px; display:none">
 
                         <p>Enter event Title:</p>
                         <p>
