@@ -193,7 +193,6 @@ function get_student_list()
     $table_name = 'students';
     $school = (int)get_user_meta(wp_get_current_user()->ID, 'school', true);
     $html = '';
-    $school = 3;
     $results = $wpdb->get_results(
         "SELECT * FROM " . $table_name . "  INNER JOIN schools  ON students.school = schools.id   WHERE students.school  = " . $school
         , OBJECT);
@@ -266,7 +265,7 @@ function new_student()
             <p>
                 <input name="submit" id="submit" tabindex="5" value="Submit" type="submit"
                        class="button button-primary button-large">
-                <input type="hidden" name="action" value="do_upload"">
+                <input type="hidden" name="action" value="do_upload">
             </p>
 
         </form>
@@ -329,7 +328,7 @@ function save_upload_details($file, $request)
     if ($insert) {
         $message['success'] = 'Uploaded, thanks';
         //set_upload_error($message);
-        wp_redirect(wp_get_referer());
+        wp_redirect(site_url() . '/student-list');
         //echo 'uploaded';
         exit;
     }
@@ -748,6 +747,24 @@ function ajax_update_user_data()
     echo "done";
     exit;
 }
+
+add_action('admin_post_add_class', 'prefix_admin_add_class');
+add_action('admin_post_nopriv_add_class', 'prefix_admin_add_class');
+function prefix_admin_add_class()
+{
+    global $wpdb;
+    // $wpdb->show_errors();
+    $request = (object)$_REQUEST;
+    $insert = $wpdb->insert('school_classes', array(
+        'school_id' => $request->school,
+        'class' => $request->class,
+
+    ), array('%d', '%s', '%s',)
+    );
+
+    wp_redirect(site_url() . '/class-list');
+}
+
 
 
 

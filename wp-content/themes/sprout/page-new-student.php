@@ -26,9 +26,21 @@ get_header(); ?>
                     <small>Name (required)</small>
                 </label>
             </p>
-
+            <?php $school = $wpdb->get_results("SELECT * FROM schools WHERE id = " . get_user_meta(wp_get_current_user()->ID, 'school', true) . " ", OBJECT); ?>
             <p>
-                <input name="class" id="class" value="" tabindex="1" type="text" class="form-control" required>
+<!--                <input name="class" id="class" value="" tabindex="1" type="text" class="form-control" required>-->
+
+                <select name="class" id="class" class="form-control" required>
+                    <option>choose Class</option>
+                    <?php global $wpdb;
+                    $results = $wpdb->get_results("SELECT * FROM school_classes WHERE school_id = " . $school[0]->id . " ", OBJECT);
+                    foreach ($results as $result) {
+                        echo '<option value="' . $result->class . '">' . $result->class . '</option>';
+                    }
+
+                    ?>
+                </select>
+
                 <label for="author">
                     <small>Class (required)</small>
                 </label>
@@ -55,8 +67,8 @@ get_header(); ?>
                 <select name="school" class="form-control" required>
                     <option>choose School</option>
                     <?php global $wpdb;
-                    $results = $wpdb->get_results("SELECT * FROM schools WHERE id = " . get_user_meta(wp_get_current_user()->ID, 'school', true) . " ", OBJECT);
-                    foreach ($results as $result) {
+
+                    foreach ($school as $result) {
                         echo '<option value="' . $result->id . '">' . $result->school_name . '</option>';
                     }
 
@@ -77,7 +89,7 @@ get_header(); ?>
             <p>
                 <input name="submit" id="submit" tabindex="5" value="Submit" type="submit"
                        class="button button-primary button-large">
-                <input type="hidden" name="action" value="do_upload"">
+                <input type="hidden" name="action" value="do_upload">
             </p>
 
         </form>

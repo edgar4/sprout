@@ -112,6 +112,9 @@
             </li>
 
         <?php elseif ($user->roles[0] == 'school_admin') : ?>
+            <li><a href="<?php echo site_url() . '/dashboard/new-class'; ?>"><i class="icon icon-fullscreen"></i>
+                    <span> Add school Classes </span></a>
+            </li>
             <li><a href="<?php echo site_url() . '/dashboard/new-user'; ?>"><i class="icon icon-fullscreen"></i> <span> Add Teacher/ Parent</span></a>
             </li>
 

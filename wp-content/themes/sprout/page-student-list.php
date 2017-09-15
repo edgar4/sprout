@@ -36,6 +36,7 @@ get_header(); ?>
                     </thead>
 
                     <tbody id="report-results">
+                    
                     <?php echo get_student_list() ?>
 
                     </tbody>
