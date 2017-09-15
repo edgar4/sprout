@@ -746,6 +746,7 @@ function ajax_update_user_data()
     ));
 
     echo "done";
+    exit;
 }
 
 
