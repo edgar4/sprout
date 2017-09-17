@@ -762,7 +762,7 @@ function prefix_admin_add_class()
     ), array('%d', '%s', '%s',)
     );
 
-    wp_redirect(site_url() . '/class-list');
+    wp_redirect(site_url() . '/student-list');
 }
 
 
