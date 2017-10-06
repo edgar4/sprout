@@ -24,9 +24,7 @@ get_header(); ?>
                 <h5>My Events</h5>
                 <div class="buttons">
                     <?php if (current_user_can('teacher') || current_user_can('editor') || current_user_can('administrator')) : ?>
-                        <a id="add-event"
-                           class="btn btn-inverse btn-mini"><i class="icon-plus icon-white"></i> Add new
-                            event</a>
+                        <a id="add-event" class="btn btn-inverse btn-mini"><i class="icon-plus icon-white"></i> Add New Eqvent</a>
                     <?php endif ?>
 
                 </div>
