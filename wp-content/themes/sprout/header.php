@@ -28,6 +28,16 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.full.js"></script>
     <script
         src="http://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-89407892-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-89407892-2');
+    </script>
+
     <script>
 
         $(document).ready(function () {
